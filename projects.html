@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Projects — Mahek Parvez</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&family=Orbitron:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      min-height: 100vh;
+      background: #F0EDE6;
+      font-family: 'Fredoka', sans-serif;
+      padding: 56px 20px 80px;
+    }
+
+    .wrap {
+      max-width: 760px;
+      margin: 0 auto;
+      animation: rise 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(-8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── Header ── */
+    .page-header {
+      border: 2px solid #0D0D0D;
+      border-bottom: none;
+      padding: 14px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .back-btn {
+      text-decoration: none;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #0D0D0D;
+      opacity: 0.4;
+      transition: opacity 0.2s, color 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .back-btn:hover { opacity: 1; color: #D92B2B; }
+
+    .page-nav { display: flex; align-items: center; gap: 10px; }
+    .page-num {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      color: rgba(13,13,13,0.2);
+    }
+    .nav-arrow {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      text-decoration: none;
+      color: #0D0D0D;
+      opacity: 0.35;
+      transition: opacity 0.2s, color 0.2s;
+      line-height: 1;
+    }
+    .nav-arrow:hover { opacity: 1; color: #D92B2B; }
+
+    /* ── Body ── */
+    .page-body {
+      border: 2px solid #0D0D0D;
+      padding: 48px 52px 64px;
+      min-height: 70vh;
+      background: #F0EDE6;
+    }
+
+    .page-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 72px;
+      font-weight: 800;
+      color: #0D0D0D;
+      text-transform: uppercase;
+      letter-spacing: -2px;
+      line-height: 0.95;
+      margin-bottom: 6px;
+    }
+
+    .page-sub {
+      font-size: 12px;
+      color: #0D0D0D;
+      opacity: 0.42;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: 40px;
+    }
+
+    .health-bar { display: flex; align-items: center; gap: 10px; margin-bottom: 40px; }
+    .health-track {
+      flex: 1; height: 16px;
+      background: rgba(13,13,13,0.1);
+      border: 2px solid #0D0D0D;
+      position: relative; overflow: hidden;
+    }
+    .health-fill {
+      position: absolute; inset: 0;
+      background: #D92B2B; width: 100%;
+      transition: width 0.08s linear;
+    }
+    .health-fill::after {
+      content: ''; position: absolute;
+      top: 0; left: 0; right: 0; height: 5px;
+      background: rgba(255,255,255,0.22);
+    }
+
+    /* ── Project grid ── */
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+    }
+
+    .card {
+      text-decoration: none;
+      color: #0D0D0D;
+      border: 1.5px solid #0D0D0D;
+      padding: 28px 26px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      position: relative;
+      transition: background 0.15s;
+      background: #F0EDE6;
+    }
+
+    .card:hover { background: #0D0D0D; }
+    .card:hover .c-name,
+    .card:hover .c-desc,
+    .card:hover .tag { color: #F0EDE6; border-color: rgba(240,237,230,0.3); }
+    .card:hover .c-status { color: rgba(240,237,230,0.4); }
+    .card:hover .c-arrow { opacity: 1; }
+
+    .c-status {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(13,13,13,0.35);
+      transition: color 0.15s;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: #D92B2B;
+      flex-shrink: 0;
+    }
+    .dot.wip { background: #D4882A; }
+    .dot.soon { background: rgba(13,13,13,0.2); }
+
+    .c-name {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 26px;
+      font-weight: 800;
+      color: #0D0D0D;
+      letter-spacing: -0.5px;
+      line-height: 1;
+      transition: color 0.15s;
+    }
+
+    .c-desc {
+      font-size: 12.5px;
+      line-height: 1.65;
+      color: #0D0D0D;
+      opacity: 0.62;
+      flex: 1;
+      transition: color 0.15s;
+    }
+    .card:hover .c-desc { opacity: 0.7; }
+
+    .tags { display: flex; flex-wrap: wrap; gap: 4px; }
+    .tag {
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 3px 7px;
+      border: 1px solid rgba(13,13,13,0.3);
+      color: #0D0D0D;
+      transition: color 0.15s, border-color 0.15s;
+    }
+
+    .c-arrow {
+      position: absolute;
+      top: 20px;
+      right: 22px;
+      font-size: 16px;
+      opacity: 0;
+      color: #D92B2B;
+      transition: opacity 0.15s;
+    }
+    .card:hover .c-arrow { color: #F0EDE6; }
+
+    .card.soon {
+      border-style: dashed;
+      pointer-events: none;
+      opacity: 0.4;
+    }
+
+    @media (max-width: 580px) {
+      .page-body { padding: 32px 24px 48px; }
+      .grid { grid-template-columns: 1fr; }
+      .page-title { font-size: 52px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="page-header">
+      <a href="index.html" class="back-btn">← Back</a>
+      <div class="page-nav">
+        <a href="problems.html" class="nav-arrow">←</a>
+        <span class="page-num">01 / 04</span>
+        <a href="people.html" class="nav-arrow">→</a>
+      </div>
+    </div>
+    <div class="page-body">
+      <h1 class="page-title">Projects</h1>
+      <p class="page-sub">things i've built</p>
+      <div class="health-bar">
+        <svg id="heart-svg" viewBox="0 0 14 12" width="22" height="19" xmlns="http://www.w3.org/2000/svg" style="image-rendering:pixelated;shape-rendering:crispEdges;display:block;flex-shrink:0;transition:width 0.05s,height 0.05s">
+          <rect x="2" y="0" width="4" height="2" fill="#D92B2B"/><rect x="8" y="0" width="4" height="2" fill="#D92B2B"/>
+          <rect x="0" y="2" width="14" height="2" fill="#D92B2B"/>
+          <rect x="0" y="4" width="14" height="2" fill="#D92B2B"/>
+          <rect x="2" y="6" width="10" height="2" fill="#D92B2B"/>
+          <rect x="4" y="8" width="6" height="2" fill="#D92B2B"/>
+          <rect x="6" y="10" width="2" height="2" fill="#D92B2B"/>
+        </svg>
+        <div class="health-track"><div class="health-fill" id="health-fill"></div></div>
+      </div>
+
+      <div class="grid">
+
+        <a href="https://docs.google.com/document/d/1li2pEY9dPF64TegyU-M9xeXwpDL2sg06tV5N5-QgF-w/edit?tab=t.bm7cw6iwggne" target="_blank" rel="noopener" class="card">
+          <div class="c-status"><div class="dot"></div>Deployed</div>
+          <div class="c-name">SunHarvested CoolRooms</div>
+          <p class="c-desc">Cooling without electricity while being eco-friendly. Meant for cold storage on farms. Patented, prototyped, and deployed — my coolest contribution to the world. Won 8 awards internationally, nationally and regionally.</p>
+          <div class="tags"><span class="tag">Thermodynamics</span><span class="tag">Heat Transfer</span><span class="tag">Funding</span></div>
+          <span class="c-arrow">↗</span>
+        </a>
+
+        <a href="https://docs.google.com/document/d/1li2pEY9dPF64TegyU-M9xeXwpDL2sg06tV5N5-QgF-w/edit?tab=t.bm7cw6iwggne" target="_blank" rel="noopener" class="card">
+          <div class="c-status"><div class="dot"></div>Built</div>
+          <div class="c-name">Thumbless</div>
+          <p class="c-desc">My robot hand that switches off the light when I get lazy in bed. 4 fingers, servo-actuated, controlled by a glove. This project made me realise I actually like building physical things.</p>
+          <div class="tags"><span class="tag">Robotics</span><span class="tag">Perfboard Design</span><span class="tag">3D Printing</span></div>
+          <span class="c-arrow">↗</span>
+        </a>
+
+        <a href="https://docs.google.com/document/d/1li2pEY9dPF64TegyU-M9xeXwpDL2sg06tV5N5-QgF-w/edit?tab=t.bm7cw6iwggne" target="_blank" rel="noopener" class="card">
+          <div class="c-status"><div class="dot"></div>Built</div>
+          <div class="c-name">Ferb</div>
+          <p class="c-desc">Built my first speaker from scratch. Electrical schematics, PCB design, acoustics, and the satisfaction of something that makes you more technically sound.</p>
+          <div class="tags"><span class="tag">Hardware</span><span class="tag">PCB</span><span class="tag">Audio</span></div>
+          <span class="c-arrow">↗</span>
+        </a>
+
+        <a href="https://docs.google.com/document/d/1li2pEY9dPF64TegyU-M9xeXwpDL2sg06tV5N5-QgF-w/edit?tab=t.bm7cw6iwggne" target="_blank" rel="noopener" class="card">
+          <div class="c-status"><div class="dot wip"></div>In Progress</div>
+          <div class="c-name">Darner the Dragonfly</div>
+          <p class="c-desc">Fixed a palm sized drone that helps you capture videos. Soldering, hardware debugging, and learning how drones work. If it's going to fly, it should look cute too.</p>
+          <div class="tags"><span class="tag">Hardware</span><span class="tag">Flight Control</span><span class="tag">PCB</span></div>
+          <span class="c-arrow">↗</span>
+        </a>
+
+        <a href="https://docs.google.com/document/d/1li2pEY9dPF64TegyU-M9xeXwpDL2sg06tV5N5-QgF-w/edit?tab=t.bm7cw6iwggne" target="_blank" rel="noopener" class="card">
+          <div class="c-status"><div class="dot"></div>Built</div>
+          <div class="c-name">PicNEat</div>
+          <p class="c-desc">Point your phone at food. Get nutrition data back. An iOS app with a custom ML pipeline that makes healthy eating feel less like homework.</p>
+          <div class="tags"><span class="tag">UI/UX</span><span class="tag">Flutter</span><span class="tag">OpenCV</span><span class="tag">App</span><span class="tag">Figma</span><span class="tag">App Dev</span><span class="tag">Claude Code</span><span class="tag">Recruiting</span></div>
+          <span class="c-arrow">↗</span>
+        </a>
+
+        <a href="https://docs.google.com/document/d/1li2pEY9dPF64TegyU-M9xeXwpDL2sg06tV5N5-QgF-w/edit?tab=t.bm7cw6iwggne" target="_blank" rel="noopener" class="card">
+          <div class="c-status"><div class="dot"></div>Built</div>
+          <div class="c-name">LinkedIn Warrior</div>
+          <p class="c-desc">A Chrome extension that helps engineering students write LinkedIn posts that actually get traction. Because engineers deserve an audience too.</p>
+          <div class="tags"><span class="tag">APIs</span><span class="tag">Chrome Extension</span><span class="tag">Cursor</span><span class="tag">Security</span></div>
+          <span class="c-arrow">↗</span>
+        </a>
+
+        <div class="card soon">
+          <div class="c-status"><div class="dot soon"></div>Coming Soon</div>
+          <div class="c-name">???</div>
+          <p class="c-desc">Always building. Check back.</p>
+          <div class="tags"><span class="tag">Unknown</span></div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <script>
+    (function(){
+      function upd(){
+        var f=document.getElementById('health-fill');
+        var h=document.getElementById('heart-svg');
+        if(!f)return;
+        var s=window.scrollY,m=document.documentElement.scrollHeight-window.innerHeight;
+        var pct=m>0?Math.max(0,(1-s/m)):1;
+        f.style.width=(pct*100)+'%';
+        if(h){var sz=22+Math.round((1-pct)*52);h.setAttribute('width',sz);h.setAttribute('height',Math.round(sz*19/22));}
+      }
+      window.addEventListener('scroll',upd,{passive:true});
+      upd();
+    })();
+  </script>
+</body>
+</html>

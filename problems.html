@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Problems — Mahek Parvez</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&family=Orbitron:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      min-height: 100vh;
+      background: #F0EDE6;
+      font-family: 'Fredoka', sans-serif;
+      padding: 56px 20px 80px;
+    }
+
+    .wrap {
+      max-width: 760px;
+      margin: 0 auto;
+      animation: rise 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(-8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .page-header {
+      border: 2px solid #0D0D0D;
+      border-bottom: none;
+      padding: 14px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .back-btn {
+      text-decoration: none;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #0D0D0D;
+      opacity: 0.4;
+      transition: opacity 0.2s, color 0.2s;
+    }
+    .back-btn:hover { opacity: 1; color: #D92B2B; }
+
+    .page-nav { display: flex; align-items: center; gap: 10px; }
+    .page-num {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      color: rgba(13,13,13,0.2);
+    }
+    .nav-arrow {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      text-decoration: none;
+      color: #0D0D0D;
+      opacity: 0.35;
+      transition: opacity 0.2s, color 0.2s;
+      line-height: 1;
+    }
+    .nav-arrow:hover { opacity: 1; color: #D92B2B; }
+
+    .page-body {
+      border: 2px solid #0D0D0D;
+      padding: 48px 52px 64px;
+      min-height: 70vh;
+    }
+
+    .page-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 72px;
+      font-weight: 800;
+      color: #0D0D0D;
+      text-transform: uppercase;
+      letter-spacing: -2px;
+      line-height: 0.95;
+      margin-bottom: 6px;
+    }
+
+    .page-sub {
+      font-size: 12px;
+      color: #0D0D0D;
+      opacity: 0.42;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: 40px;
+    }
+
+    .health-bar { display: flex; align-items: center; gap: 10px; margin-bottom: 40px; }
+    .health-track {
+      flex: 1; height: 16px;
+      background: rgba(13,13,13,0.1);
+      border: 2px solid #0D0D0D;
+      position: relative; overflow: hidden;
+    }
+    .health-fill {
+      position: absolute; inset: 0;
+      background: #D92B2B; width: 100%;
+      transition: width 0.08s linear;
+    }
+    .health-fill::after {
+      content: ''; position: absolute;
+      top: 0; left: 0; right: 0; height: 5px;
+      background: rgba(255,255,255,0.22);
+    }
+
+    /* ── Problem entries ── */
+    .problem {
+      display: grid;
+      grid-template-columns: 64px 1fr;
+      padding: 20px 0;
+      border-bottom: 1px solid rgba(13,13,13,0.1);
+      gap: 0 28px;
+      align-items: start;
+    }
+
+    .problem:first-of-type {
+      border-top: 1.5px solid rgba(13,13,13,0.1);
+    }
+
+    .p-num {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 52px;
+      font-weight: 800;
+      color: #D92B2B;
+      opacity: 0.15;
+      line-height: 1;
+      padding-top: 4px;
+      letter-spacing: -2px;
+    }
+
+    .p-content {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .p-status {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #D92B2B;
+    }
+
+    .p-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 26px;
+      font-weight: 800;
+      color: #0D0D0D;
+      letter-spacing: -0.5px;
+      line-height: 1.1;
+    }
+
+    .p-body {
+      font-size: 13.5px;
+      line-height: 1.72;
+      color: #0D0D0D;
+      opacity: 0.65;
+    }
+
+    .p-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      text-decoration: none;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #D92B2B;
+      border-bottom: 1px solid rgba(217, 43, 43, 0.3);
+      padding-bottom: 1px;
+      width: fit-content;
+      transition: border-color 0.15s;
+    }
+    .p-link:hover { border-color: #D92B2B; }
+
+    /* ── Reading list ── */
+    .reading-list {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-top: 4px;
+    }
+
+    .read-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: #0D0D0D;
+      font-size: 13px;
+      opacity: 0.65;
+      transition: opacity 0.15s;
+    }
+    .read-item:hover { opacity: 1; }
+    .read-item::before {
+      content: '→';
+      font-size: 11px;
+      color: #D92B2B;
+      flex-shrink: 0;
+    }
+
+    @media (max-width: 580px) {
+      .page-body { padding: 32px 24px 48px; }
+      .problem { grid-template-columns: 44px 1fr; gap: 0 16px; }
+      .p-num { font-size: 38px; }
+      .p-title { font-size: 20px; }
+      .page-title { font-size: 52px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="page-header">
+      <a href="index.html" class="back-btn">← Back</a>
+      <div class="page-nav">
+        <a href="passions.html" class="nav-arrow">←</a>
+        <span class="page-num">04 / 04</span>
+        <a href="projects.html" class="nav-arrow">→</a>
+      </div>
+    </div>
+    <div class="page-body">
+      <h1 class="page-title">Problems</h1>
+      <p class="page-sub">and their solutions</p>
+      <div class="health-bar">
+        <svg id="heart-svg" viewBox="0 0 14 12" width="22" height="19" xmlns="http://www.w3.org/2000/svg" style="image-rendering:pixelated;shape-rendering:crispEdges;display:block;flex-shrink:0;transition:width 0.05s,height 0.05s">
+          <rect x="2" y="0" width="4" height="2" fill="#D92B2B"/><rect x="8" y="0" width="4" height="2" fill="#D92B2B"/>
+          <rect x="0" y="2" width="14" height="2" fill="#D92B2B"/>
+          <rect x="0" y="4" width="14" height="2" fill="#D92B2B"/>
+          <rect x="2" y="6" width="10" height="2" fill="#D92B2B"/>
+          <rect x="4" y="8" width="6" height="2" fill="#D92B2B"/>
+          <rect x="6" y="10" width="2" height="2" fill="#D92B2B"/>
+        </svg>
+        <div class="health-track"><div class="health-fill" id="health-fill"></div></div>
+      </div>
+
+      <!-- Problem 1: Quitting -->
+      <div class="problem">
+        <span class="p-num">01</span>
+        <div class="p-content">
+          <span class="p-status">Solved (mostly)</span>
+          <h2 class="p-title">Quitting</h2>
+          <p class="p-body">I was that toddler that started unfinished paintings. I loved her for choosing to liberate herself of bad ideas. But I felt she quit a little too much. So now I have made consistency my strength (hope she's proud).</p>
+          <a href="https://www.instagram.com/mahekparvez1/" target="_blank" rel="noopener" class="p-link">See the proof on Instagram ↗</a>
+        </div>
+      </div>
+
+      <!-- Problem 2: Reading -->
+      <div class="problem">
+        <span class="p-num">02</span>
+        <div class="p-content">
+          <span class="p-status">In Progress</span>
+          <h2 class="p-title">Reading</h2>
+          <p class="p-body">I didn't grow up being a voracious reader — my mom made sure I was kept busy learning 8 co-curricular skills. So now I am actively inviting reading into my life. Thoroughly enjoyed:</p>
+          <div class="reading-list">
+            <a href="https://www.highagency.com/" target="_blank" rel="noopener" class="read-item">High Agency</a>
+            <a href="https://www.paulgraham.com/" target="_blank" rel="noopener" class="read-item">Paul's essays</a>
+            <a href="https://www.amazon.com/Outliers-Story-Success-Malcolm-Gladwell/dp/0316017930" target="_blank" rel="noopener" class="read-item">Outliers</a>
+            <a href="https://vinay.sh/i-am-rich-and-have-no-idea-what-to-do-with-my-life/" target="_blank" rel="noopener" class="read-item">i am rich and have no idea what to do with my life</a>
+            <span class="read-item" style="cursor:default;pointer-events:none;">(Shall keep this updated)</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Problem 3: Writing -->
+      <div class="problem">
+        <span class="p-num">03</span>
+        <div class="p-content">
+          <span class="p-status">In Progress</span>
+          <h2 class="p-title">Writing</h2>
+          <p class="p-body">My brain is like a fridge with 75 different categories of groceries in it. I feed my brain with lots of enriching information but I struggle the attention span of a goldfish (thanks instagram). Hoping to share a concoction of world brilliance through writing about the intersections of everything I learn.</p>
+          <a href="https://docs.google.com/document/d/1F1kbTCtldMXd_EYy5WKy9mOYLWDwhxRbabi9GfFINg0/edit?usp=sharing" target="_blank" rel="noopener" class="p-link">Mahek's Reflections ↗</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <script>
+    (function(){
+      function upd(){
+        var f=document.getElementById('health-fill');
+        var h=document.getElementById('heart-svg');
+        if(!f)return;
+        var s=window.scrollY,m=document.documentElement.scrollHeight-window.innerHeight;
+        var pct=m>0?Math.max(0,(1-s/m)):1;
+        f.style.width=(pct*100)+'%';
+        if(h){var sz=22+Math.round((1-pct)*52);h.setAttribute('width',sz);h.setAttribute('height',Math.round(sz*19/22));}
+      }
+      window.addEventListener('scroll',upd,{passive:true});
+      upd();
+    })();
+  </script>
+</body>
+</html>

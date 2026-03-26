@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mahek Parvez</title>
+  <meta name="description" content="Mahek Parvez — hardware * content creation">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&family=Orbitron:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      min-height: 100vh;
+      background: #F0EDE6;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 48px 20px;
+      font-family: 'Fredoka', sans-serif;
+    }
+
+    .page {
+      width: min(480px, 100%);
+      animation: appear 0.55s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+
+    @keyframes appear {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .top-bar {
+      border: 2px solid #0D0D0D;
+      border-bottom: none;
+      padding: 18px 24px 16px;
+    }
+
+    .top-row {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 5px;
+    }
+
+    .site-name {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 38px;
+      font-weight: 800;
+      color: #0D0D0D;
+      letter-spacing: -1px;
+      text-transform: uppercase;
+      line-height: 1;
+    }
+
+    nav { display: flex; gap: 10px; align-items: center; padding-top: 4px; flex-shrink: 0; }
+    nav a { display: flex; align-items: center; text-decoration: none; color: #0D0D0D; opacity: 0.6; transition: opacity 0.15s, color 0.15s; }
+    nav a:hover { opacity: 1; color: #D92B2B; }
+
+    .tagline {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 18px;
+      color: #0D0D0D;
+      opacity: 0.42;
+      letter-spacing: 0.03em;
+    }
+    .tagline a {
+      color: inherit;
+      text-decoration: none;
+      transition: opacity 0.15s, color 0.15s;
+    }
+    .tagline a:hover { opacity: 1; color: #D92B2B; }
+
+    .illus-wrap {
+      border: 2px solid #0D0D0D;
+      position: relative;
+      overflow: hidden;
+      aspect-ratio: 5 / 6;
+    }
+
+    .illus-wrap { cursor: none; }
+    .illus-wrap img { width: 100%; display: block; position: relative; z-index: 1; }
+
+    .pixel-bg {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      opacity: 0.32;
+      transition: opacity 0.4s, filter 0.4s;
+    }
+
+    .spark-canvas {
+      position: absolute;
+      inset: 0;
+      z-index: 3;
+      width: 100%; height: 100%;
+      pointer-events: none;
+    }
+
+    .hotspot {
+      position: absolute;
+      border-radius: 2px;
+      cursor: none;
+      z-index: 4;
+      transition: background 0.15s, outline 0.15s;
+    }
+    .hotspot:hover {
+      background: rgba(217, 43, 43, 0.18);
+      outline: 1.5px solid rgba(217, 43, 43, 0.65);
+    }
+    .hotspot::after {
+      content: attr(data-tip);
+      position: absolute;
+      bottom: calc(100% + 7px);
+      left: 50%;
+      transform: translateX(-50%);
+      background: #0D0D0D;
+      color: #F0EDE6;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 5px 10px;
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.15s;
+    }
+    .hotspot:hover::after { opacity: 1; }
+
+    .hs-projects { top: 51%; left: 3.5%;  width: 37%;  height: 6%; }
+    .hs-passions { top: 50%; left: 55%;   width: 40%;  height: 6%; }
+    .hs-people   { top: 56%; left: 21%;   width: 36%;  height: 6%; }
+    .hs-problems { top: 57%; left: 51%;   width: 43%;  height: 6%; }
+
+    .location-arc {
+      position: absolute;
+      bottom: 0; left: 0;
+      width: 100%; height: 22%;
+      z-index: 2;
+      pointer-events: none;
+      overflow: visible;
+    }
+
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="top-bar">
+      <div class="top-row">
+        <span class="site-name">Mahek Parvez</span>
+        <nav aria-label="Social links">
+          <a href="https://instagram.com" target="_blank" rel="noopener" aria-label="Instagram">
+            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.8" fill="currentColor" stroke="none"/></svg>
+          </a>
+          <a href="https://linkedin.com" target="_blank" rel="noopener" aria-label="LinkedIn">
+            <svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4V9h4v1.5A6 6 0 0 1 16 8z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+          </a>
+          <a href="https://x.com" target="_blank" rel="noopener" aria-label="X">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          </a>
+          <a href="https://youtube.com" target="_blank" rel="noopener" aria-label="YouTube">
+            <svg width="23" height="17" viewBox="0 0 23 17"><rect width="23" height="17" rx="3.5" fill="#FF0000"/><polygon points="9,3.5 9,13.5 17.5,8.5" fill="white"/></svg>
+          </a>
+        </nav>
+      </div>
+      <span class="tagline"><a href="projects.html">hardware</a> * <a href="passions.html">content creation</a> * <a href="problems.html">creativity</a></span>
+    </div>
+
+    <div class="illus-wrap">
+      <canvas id="pixel-bg" class="pixel-bg"></canvas>
+      <img src="Mahek-vector.png" alt="Mahek holding folders: Projects, Passions, People, Problems">
+      <canvas id="spark-canvas" class="spark-canvas"></canvas>
+      <a href="projects.html" class="hotspot hs-projects" data-tip="Projects"></a>
+      <a href="passions.html" class="hotspot hs-passions" data-tip="Passions"></a>
+      <a href="people.html"   class="hotspot hs-people"   data-tip="People"></a>
+      <a href="problems.html" class="hotspot hs-problems"  data-tip="Problems"></a>
+      <svg class="location-arc" viewBox="0 0 100 22" preserveAspectRatio="xMidYMax meet" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <path id="skirt-arc" d="M 3,11.5 Q 50,21.5 97,11.5"/>
+        </defs>
+        <text font-family="'Fredoka', sans-serif" font-size="3.8" fill="#0D0D0D" font-weight="400">
+          <textPath href="#skirt-arc" startOffset="50%" text-anchor="middle">📍 Purdue / Chennai / San Francisco</textPath>
+        </text>
+      </svg>
+    </div>
+
+  </div>
+
+  <script>
+    const BLOCK = 12;   // draw size
+    const STRIDE = 24;  // stride = BLOCK + BLOCK/2 each side (6px gap per side)
+    let bgPixels = null;
+    let animFrame = null;
+    let mouseX = -9999, mouseY = -9999;
+
+    // Theme hues (0..1): pink=projects, yellow=passions, blue=people, orange=problems
+    const THEME_H = { projects: 330/360, passions: 50/360, people: 220/360, problems: 30/360 };
+    let currentThemeH = -1;  // -1 = no theme
+    let activeWave = null;   // { h, cx, cy, startTime, maxR }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const wrap = document.querySelector('.illus-wrap');
+      if (!wrap) return;
+
+      wrap.addEventListener('mousemove', e => {
+        const rect = wrap.getBoundingClientRect();
+        mouseX = e.clientX - rect.left;
+        mouseY = e.clientY - rect.top;
+      });
+      wrap.addEventListener('mouseleave', () => { mouseX = -9999; mouseY = -9999; });
+
+      // Hotspot theme triggers
+      Object.entries(THEME_H).forEach(([name, h]) => {
+        const hs = wrap.querySelector('.hs-' + name);
+        if (!hs) return;
+        hs.addEventListener('mouseenter', () => {
+          const wRect = wrap.getBoundingClientRect();
+          const hRect = hs.getBoundingClientRect();
+          const cx = hRect.left + hRect.width / 2 - wRect.left;
+          const cy = hRect.top  + hRect.height / 2 - wRect.top;
+          const maxR = Math.sqrt(wRect.width ** 2 + wRect.height ** 2);
+          activeWave = { h, cx, cy, startTime: performance.now(), maxR };
+          currentThemeH = h;
+        });
+      });
+    });
+
+    function rgbToHsl(r, g, b) {
+      r /= 255; g /= 255; b /= 255;
+      const max = Math.max(r,g,b), min = Math.min(r,g,b);
+      let h, s, l = (max + min) / 2;
+      if (max === min) { h = s = 0; }
+      else {
+        const d = max - min;
+        s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+        switch(max) {
+          case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+          case g: h = (b - r) / d + 2; break;
+          case b: h = (r - g) / d + 4; break;
+        }
+        h /= 6;
+      }
+      return [h, s, l];
+    }
+
+    function hslToRgb(h, s, l) {
+      if (s === 0) { const v = Math.round(l*255); return [v,v,v]; }
+      const q = l < 0.5 ? l*(1+s) : l+s-l*s, p = 2*l-q;
+      const hue = (p, q, t) => {
+        if (t<0) t+=1; if (t>1) t-=1;
+        if (t<1/6) return p+(q-p)*6*t;
+        if (t<1/2) return q;
+        if (t<2/3) return p+(q-p)*(2/3-t)*6;
+        return p;
+      };
+      return [Math.round(hue(p,q,h+1/3)*255), Math.round(hue(p,q,h)*255), Math.round(hue(p,q,h-1/3)*255)];
+    }
+
+    function buildPixelGrid(img) {
+      const c = document.getElementById('pixel-bg');
+      if (!c || !img || !img.complete || !img.naturalWidth) return;
+      const W = c.offsetWidth || 480, H = c.offsetHeight || 576;
+      const cols = Math.ceil(W / STRIDE) + 1, rows = Math.ceil(H / STRIDE) + 1;
+      const iAR = img.naturalWidth / img.naturalHeight, cAR = W / H;
+      let sx, sy, sw, sh;
+      if (iAR > cAR) { sh = img.naturalHeight; sw = sh*cAR; sx = (img.naturalWidth-sw)/2; sy = 0; }
+      else            { sw = img.naturalWidth;  sh = sw/cAR; sx = 0; sy = (img.naturalHeight-sh)/2; }
+      const off = document.createElement('canvas');
+      off.width = cols; off.height = rows;
+      off.getContext('2d').drawImage(img, sx, sy, sw, sh, 0, 0, cols, rows);
+      const raw = off.getContext('2d').getImageData(0, 0, cols, rows).data;
+      const hsl = new Float32Array(cols * rows * 3);
+      for (let i = 0; i < cols * rows; i++) {
+        const [h, s, l] = rgbToHsl(raw[i*4], raw[i*4+1], raw[i*4+2]);
+        hsl[i*3] = h; hsl[i*3+1] = s; hsl[i*3+2] = l;
+      }
+      bgPixels = { cols, rows, W, H, hsl };
+    }
+
+    function drawSpark(ctx, x, y, ts) {
+      const pulse = Math.sin(ts * 0.007) * 0.5 + 0.5;
+      const outer = 20 + pulse * 9;
+      const waist = 2.2 + pulse;
+
+      ctx.save();
+      ctx.translate(Math.round(x), Math.round(y));
+
+      // Soft radial glow
+      const grd = ctx.createRadialGradient(0, 0, 0, 0, 0, outer * 0.9);
+      grd.addColorStop(0, `rgba(255,255,255,${0.45 + pulse * 0.2})`);
+      grd.addColorStop(1, 'rgba(255,255,255,0)');
+      ctx.fillStyle = grd;
+      ctx.beginPath();
+      ctx.arc(0, 0, outer * 0.9, 0, Math.PI * 2);
+      ctx.fill();
+
+      // 4-pointed star path
+      ctx.beginPath();
+      ctx.moveTo(0,      -outer);
+      ctx.lineTo(waist,  -waist);
+      ctx.lineTo(outer,   0);
+      ctx.lineTo(waist,   waist);
+      ctx.lineTo(0,       outer);
+      ctx.lineTo(-waist,  waist);
+      ctx.lineTo(-outer,  0);
+      ctx.lineTo(-waist, -waist);
+      ctx.closePath();
+
+      ctx.fillStyle = 'rgba(255,255,255,0.96)';
+      ctx.fill();
+      ctx.strokeStyle = 'rgba(0,0,0,0.75)';
+      ctx.lineWidth = 1.4;
+      ctx.lineJoin = 'miter';
+      ctx.miterLimit = 14;
+      ctx.stroke();
+
+      // Bright center dot
+      ctx.fillStyle = '#ffffff';
+      ctx.beginPath();
+      ctx.arc(0, 0, 2.5, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.restore();
+    }
+
+    function renderPixelBg(ts) {
+      const c = document.getElementById('pixel-bg');
+      if (!c || !bgPixels) { animFrame = requestAnimationFrame(renderPixelBg); return; }
+      const { cols, rows, W, H, hsl } = bgPixels;
+      c.width = W; c.height = H;
+      const ctx = c.getContext('2d');
+      const t = ts * 0.0009; // slow, calm speed
+
+      // Mouse in pixel-grid coords
+      const mCol = mouseX / STRIDE;
+      const mRow = mouseY / STRIDE;
+      const hasMouse = mouseX > 0;
+
+      // Wave front radius (pixels travel at maxR/1000ms)
+      let waveFront = Infinity, waveH = currentThemeH, waveMaxR = 1;
+      if (activeWave) {
+        const elapsed = ts - activeWave.startTime;
+        waveFront = (elapsed / 1000) * activeWave.maxR;
+        waveH     = activeWave.h;
+        waveMaxR  = activeWave.maxR;
+      }
+
+      for (let r = 0; r < rows; r++) {
+        for (let col = 0; col < cols; col++) {
+          const idx = r * cols + col;
+          const h0 = hsl[idx*3], s0 = hsl[idx*3+1], l0 = hsl[idx*3+2];
+
+          // Ocean wave: horizontal rolling swells with gentle shimmer
+          const wave = Math.sin(r * 0.55 - t * 1.6 + col * 0.07) * 0.10
+                     + Math.sin(r * 0.28 - t * 1.0 + col * 0.04) * 0.06
+                     + Math.sin(col * 0.18 + r * 0.08 - t * 0.55) * 0.03;
+
+          // Keep image hues faithful (h0 * 0.85), gentle slow rotation
+          const baseH = (h0 * 0.88 + t * 0.04 + wave * 0.12 + 1) % 1;
+          let newS = Math.min(1, s0 * 1.25 + 0.18);
+          let newL = Math.min(0.82, Math.max(0.35, l0 + 0.12 + wave * 0.08));
+          let newH = baseH;
+
+          // Theme wave: ripple outward from hotspot center
+          if (activeWave || currentThemeH >= 0) {
+            const px = col * STRIDE + BLOCK / 2, py = r * STRIDE + BLOCK / 2;
+            const wdx = px - (activeWave ? activeWave.cx : 0);
+            const wdy = py - (activeWave ? activeWave.cy : 0);
+            const wDist = Math.sqrt(wdx*wdx + wdy*wdy);
+            // Soft edge: smooth over ~4 block-widths behind the wave front
+            const edge = activeWave
+              ? Math.max(0, Math.min(1, (waveFront - wDist) / (BLOCK * 4)))
+              : (currentThemeH >= 0 ? 1 : 0);
+            if (edge > 0) {
+              // Lerp hue toward theme, keep a little wave shimmer
+              const tH = (waveH + wave * 0.06 + 1) % 1;
+              newH = (baseH * (1 - edge) + tH * edge + 1) % 1;
+              newS = Math.min(1, newS + edge * 0.2);
+              newL = Math.min(0.9, newL + edge * 0.05);
+            }
+          }
+
+          const [rv, gv, bv] = hslToRgb(newH, newS, newL);
+          ctx.fillStyle = `rgb(${rv},${gv},${bv})`;
+          const OFF = (STRIDE - BLOCK) / 2;
+          ctx.fillRect(col * STRIDE - OFF, r * STRIDE - OFF, BLOCK, BLOCK);
+        }
+      }
+
+      // Draw pixel-art spark on overlay canvas
+      const sc = document.getElementById('spark-canvas');
+      if (sc) {
+        sc.width = W; sc.height = H;
+        const sctx = sc.getContext('2d');
+        sctx.clearRect(0, 0, W, H);
+        if (hasMouse) drawSpark(sctx, mouseX, mouseY, ts);
+      }
+
+      const el = document.querySelector('.illus-wrap');
+      if (el) {
+        const rect = el.getBoundingClientRect(), vh = window.innerHeight;
+        const p = Math.max(0, Math.min(1, (vh - rect.top) / (vh + rect.height)));
+        c.style.opacity = Math.max(0.35, Math.sin(p * Math.PI) * 0.72).toFixed(3);
+        c.style.filter  = 'saturate(1.5) contrast(1.1)';
+      }
+
+      animFrame = requestAnimationFrame(renderPixelBg);
+    }
+
+    window.addEventListener('load', () => {
+      const img = new Image();
+      img.onload = () => {
+        buildPixelGrid(img);
+        if (animFrame) cancelAnimationFrame(animFrame);
+        animFrame = requestAnimationFrame(renderPixelBg);
+      };
+      img.onerror = () => {
+        const fallback = new Image();
+        fallback.onload = () => {
+          buildPixelGrid(fallback);
+          if (animFrame) cancelAnimationFrame(animFrame);
+          animFrame = requestAnimationFrame(renderPixelBg);
+        };
+        fallback.src = 'pixel-scene.jpg';
+      };
+      img.src = 'golden-gate.jpg';
+    });
+  </script>
+</body>
+</html>
