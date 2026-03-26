@@ -146,40 +146,14 @@
 
     .hotspot {
       position: absolute;
-      border-radius: 2px;
       cursor: none;
       z-index: 4;
-      transition: background 0.15s, outline 0.15s;
     }
-    .hotspot:hover {
-      background: rgba(217, 43, 43, 0.18);
-      outline: 1.5px solid rgba(217, 43, 43, 0.65);
-    }
-    .hotspot::after {
-      content: attr(data-tip);
-      position: absolute;
-      bottom: calc(100% + 7px);
-      left: 50%;
-      transform: translateX(-50%);
-      background: #0D0D0D;
-      color: #F0EDE6;
-      font-family: 'Orbitron', sans-serif;
-      font-size: 10px;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      padding: 5px 10px;
-      white-space: nowrap;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.15s;
-    }
-    .hotspot:hover::after { opacity: 1; }
 
-    .hs-projects { top: 51%; left: 3.5%;  width: 37%;  height: 6%; }
-    .hs-passions { top: 50%; left: 55%;   width: 40%;  height: 6%; }
-    .hs-people   { top: 56%; left: 21%;   width: 36%;  height: 6%; }
-    .hs-problems { top: 57%; left: 51%;   width: 43%;  height: 6%; }
+    .hs-projects { top: 47%; left: 3%;   width: 42%; height: 12%; }
+    .hs-passions { top: 47%; left: 53%;  width: 44%; height: 12%; }
+    .hs-people   { top: 52%; left: 18%;  width: 40%; height: 12%; }
+    .hs-problems { top: 53%; left: 49%;  width: 46%; height: 12%; }
 
     .location-arc {
       position: absolute;
@@ -241,6 +215,7 @@
     let bgPixels = null;
     let animFrame = null;
     let mouseX = -9999, mouseY = -9999;
+    let isOverHotspot = false;
 
     // Theme hues (0..1): pink=projects, yellow=passions, blue=people, orange=problems
     const THEME_H = { projects: 330/360, passions: 50/360, people: 220/360, problems: 30/360 };
@@ -256,13 +231,14 @@
         mouseX = e.clientX - rect.left;
         mouseY = e.clientY - rect.top;
       });
-      wrap.addEventListener('mouseleave', () => { mouseX = -9999; mouseY = -9999; });
+      wrap.addEventListener('mouseleave', () => { mouseX = -9999; mouseY = -9999; isOverHotspot = false; });
 
-      // Hotspot theme triggers
+      // Hotspot theme triggers + red sparkle tracking
       Object.entries(THEME_H).forEach(([name, h]) => {
         const hs = wrap.querySelector('.hs-' + name);
         if (!hs) return;
         hs.addEventListener('mouseenter', () => {
+          isOverHotspot = true;
           const wRect = wrap.getBoundingClientRect();
           const hRect = hs.getBoundingClientRect();
           const cx = hRect.left + hRect.width / 2 - wRect.left;
@@ -271,6 +247,7 @@
           activeWave = { h, cx, cy, startTime: performance.now(), maxR };
           currentThemeH = h;
         });
+        hs.addEventListener('mouseleave', () => { isOverHotspot = false; });
       });
     });
 
@@ -330,13 +307,14 @@
       const pulse = Math.sin(ts * 0.007) * 0.5 + 0.5;
       const outer = 20 + pulse * 9;
       const waist = 2.2 + pulse;
+      const red = isOverHotspot;
 
       ctx.save();
       ctx.translate(Math.round(x), Math.round(y));
 
       // Soft radial glow
       const grd = ctx.createRadialGradient(0, 0, 0, 0, 0, outer * 0.9);
-      grd.addColorStop(0, `rgba(255,255,255,${0.45 + pulse * 0.2})`);
+      grd.addColorStop(0, red ? `rgba(217,43,43,${0.55 + pulse * 0.2})` : `rgba(255,255,255,${0.45 + pulse * 0.2})`);
       grd.addColorStop(1, 'rgba(255,255,255,0)');
       ctx.fillStyle = grd;
       ctx.beginPath();
@@ -355,7 +333,7 @@
       ctx.lineTo(-waist, -waist);
       ctx.closePath();
 
-      ctx.fillStyle = 'rgba(255,255,255,0.96)';
+      ctx.fillStyle = red ? 'rgba(217,43,43,0.96)' : 'rgba(255,255,255,0.96)';
       ctx.fill();
       ctx.strokeStyle = 'rgba(0,0,0,0.75)';
       ctx.lineWidth = 1.4;
@@ -364,7 +342,7 @@
       ctx.stroke();
 
       // Bright center dot
-      ctx.fillStyle = '#ffffff';
+      ctx.fillStyle = red ? '#ff6b6b' : '#ffffff';
       ctx.beginPath();
       ctx.arc(0, 0, 2.5, 0, Math.PI * 2);
       ctx.fill();
