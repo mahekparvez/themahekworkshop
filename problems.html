@@ -78,13 +78,14 @@
 
     .page-title {
       font-family: 'Orbitron', sans-serif;
-      font-size: 72px;
+      font-size: clamp(36px, 10vw, 72px);
       font-weight: 800;
       color: #0D0D0D;
       text-transform: uppercase;
       letter-spacing: -2px;
       line-height: 0.95;
       margin-bottom: 6px;
+      overflow-wrap: break-word;
     }
 
     .page-sub {
@@ -137,6 +138,7 @@
       line-height: 1;
       padding-top: 4px;
       letter-spacing: -2px;
+      margin-left: -3px;
     }
 
     .p-content {
@@ -185,6 +187,7 @@
       padding-bottom: 1px;
       width: fit-content;
       transition: border-color 0.15s;
+      white-space: nowrap;
     }
     .p-link:hover { border-color: #D92B2B; }
 
