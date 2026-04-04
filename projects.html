@@ -222,7 +222,193 @@
     @media (max-width: 580px) {
       .page-body { padding: 32px 24px 48px; }
       .grid { grid-template-columns: 1fr; }
-      .page-title { font-size: 52px; }
+    }
+
+    /* ── Floating Ideas ── */
+    .section-label {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #D92B2B;
+    }
+
+    .ideas-wrap {
+      border: 2px solid #0D0D0D;
+      border-top: none;
+    }
+
+    .ideas-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      padding: 18px 28px 14px;
+      border-bottom: 1px solid rgba(13,13,13,0.12);
+      gap: 16px;
+    }
+
+    .ideas-top-left {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .ideas-sub {
+      font-size: 11px;
+      color: #0D0D0D;
+      opacity: 0.4;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin-top: 2px;
+    }
+
+    /* Form — max ~1/10th of board area (180×180px ≈ 32,400 sq px) */
+    .idea-form {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      width: 178px;
+      flex-shrink: 0;
+    }
+
+    .if-input, .if-textarea {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 12px;
+      padding: 5px 8px;
+      border: 1.5px solid rgba(13,13,13,0.4);
+      background: transparent;
+      outline: none;
+      color: #0D0D0D;
+      transition: border-color 0.15s;
+    }
+    .if-input:focus, .if-textarea:focus { border-color: #0D0D0D; }
+    .if-input::placeholder, .if-textarea::placeholder { opacity: 0.35; }
+
+    .if-textarea {
+      resize: none;
+      height: 44px;
+      line-height: 1.4;
+    }
+
+    .if-icons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2px;
+      max-height: 58px;
+      overflow-y: auto;
+      padding: 2px 0;
+    }
+
+    .if-icon-btn {
+      font-size: 13px;
+      width: 24px; height: 24px;
+      border: 1.5px solid transparent;
+      background: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 2px;
+      transition: border-color 0.1s, background 0.1s;
+      line-height: 1;
+    }
+    .if-icon-btn:hover { border-color: rgba(13,13,13,0.25); background: rgba(13,13,13,0.05); }
+    .if-icon-btn.selected { border-color: #D92B2B; background: rgba(217,43,43,0.1); }
+
+    .if-btn {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 8.5px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 7px 0;
+      border: 1.5px solid #0D0D0D;
+      background: #0D0D0D;
+      color: #F0EDE6;
+      cursor: pointer;
+      transition: background 0.15s, border-color 0.15s;
+    }
+    .if-btn:hover { background: #D92B2B; border-color: #D92B2B; }
+
+    /* Board */
+    .ideas-board {
+      position: relative;
+      overflow: hidden;
+      line-height: 0;
+    }
+
+    .board-img {
+      width: 100%;
+      display: block;
+      image-rendering: pixelated;
+    }
+
+    #ideasContainer {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+
+    /* Floating chips */
+    .idea-chip {
+      position: absolute;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      cursor: pointer;
+      pointer-events: all;
+      animation: floatIdea var(--dur, 4s) ease-in-out infinite;
+      animation-delay: var(--delay, 0s);
+      text-align: center;
+      z-index: 2;
+      transform: translateX(-50%);
+    }
+
+    .chip-icon {
+      font-size: 30px;
+      filter: drop-shadow(0 2px 6px rgba(0,0,0,0.5));
+      display: block;
+    }
+
+    .chip-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 7.5px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #fff;
+      text-shadow: 0 1px 4px rgba(0,0,0,0.9), 0 0 10px rgba(0,0,0,0.6);
+      white-space: nowrap;
+      max-width: 88px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .chip-tooltip {
+      position: absolute;
+      bottom: calc(100% + 8px);
+      left: 50%;
+      transform: translateX(-50%);
+      background: #0D0D0D;
+      color: #F0EDE6;
+      font-family: 'Fredoka', sans-serif;
+      font-size: 11px;
+      line-height: 1.5;
+      padding: 8px 10px;
+      width: 150px;
+      white-space: normal;
+      z-index: 10;
+      display: none;
+      border: 1px solid rgba(240,237,230,0.15);
+      pointer-events: none;
+    }
+    .idea-chip:hover .chip-tooltip { display: block; }
+
+    @keyframes floatIdea {
+      0%, 100% { transform: translateX(-50%) translateY(0px); }
+      50%       { transform: translateX(-50%) translateY(-9px); }
     }
   </style>
 </head>
@@ -309,6 +495,14 @@
           <span class="c-arrow">↗</span>
         </a>
 
+        <a href="https://docs.google.com/document/d/1li2pEY9dPF64TegyU-M9xeXwpDL2sg06tV5N5-QgF-w/edit?tab=t.bm7cw6iwggne" target="_blank" rel="noopener" class="card">
+          <div class="c-status"><div class="dot"></div>Built</div>
+          <div class="c-name">Keychain</div>
+          <p class="c-desc">A 3×3 button matrix on a PSoC 6 BLE MCU — each button toggles its own LED. Firmware in C with debouncing and GPIO scanning. Small, satisfying, and embarrassingly fun to click.</p>
+          <div class="tags"><span class="tag">Embedded C</span><span class="tag">PSoC 6</span><span class="tag">ModusToolbox</span><span class="tag">GPIO</span><span class="tag">Hardware</span></div>
+          <span class="c-arrow">↗</span>
+        </a>
+
         <div class="card soon">
           <div class="c-status"><div class="dot soon"></div>Coming Soon</div>
           <div class="c-name">???</div>
@@ -319,6 +513,27 @@
       </div>
     </div>
   </div>
+
+  <!-- ── Floating Ideas Board ── -->
+  <div class="ideas-wrap">
+    <div class="ideas-top">
+      <div class="ideas-top-left">
+        <p class="section-label">Floating Ideas</p>
+        <p class="ideas-sub">half-baked thoughts &amp; sparks</p>
+      </div>
+      <div class="idea-form" id="ideaForm">
+        <input type="text" id="ideaTitle" class="if-input" placeholder="Title (2 words max)" maxlength="28" autocomplete="off">
+        <textarea id="ideaDesc" class="if-textarea" placeholder="Describe the idea..."></textarea>
+        <div class="if-icons" id="iconPicker"></div>
+        <button class="if-btn" id="floatBtn">+ Float It</button>
+      </div>
+    </div>
+    <div class="ideas-board" id="ideasBoard">
+      <img src="golden-gate.jpg" class="board-img" alt="Ideas board">
+      <div id="ideasContainer"></div>
+    </div>
+  </div>
+
   <script>
     (function(){
       function upd(){
@@ -332,6 +547,69 @@
       }
       window.addEventListener('scroll',upd,{passive:true});
       upd();
+    })();
+
+    // ── Floating Ideas ──
+    (function(){
+      var ICONS = [
+        '🖱️','🎨','☁️','🌿','⛰️','🛡️',
+        '🖌️','✏️','🔥','💣','🧪','🍄',
+        '🍃','🏆','➡️','💎','🎵','💋',
+        '⚡','🌊','🦋','🎯','🧲','🔮'
+      ];
+      var selectedIcon = ICONS[0];
+
+      // Build icon picker
+      var picker = document.getElementById('iconPicker');
+      ICONS.forEach(function(ic, i){
+        var btn = document.createElement('button');
+        btn.className = 'if-icon-btn' + (i === 0 ? ' selected' : '');
+        btn.textContent = ic;
+        btn.type = 'button';
+        btn.addEventListener('click', function(){
+          picker.querySelectorAll('.if-icon-btn').forEach(function(b){ b.classList.remove('selected'); });
+          btn.classList.add('selected');
+          selectedIcon = ic;
+        });
+        picker.appendChild(btn);
+      });
+
+      // Enforce 2-word max on title
+      var titleInput = document.getElementById('ideaTitle');
+      titleInput.addEventListener('input', function(){
+        var words = titleInput.value.split(/\s+/);
+        if(words.length > 2){
+          titleInput.value = words.slice(0,2).join(' ');
+        }
+      });
+
+      // Float button
+      document.getElementById('floatBtn').addEventListener('click', function(){
+        var title = titleInput.value.trim();
+        var desc  = document.getElementById('ideaDesc').value.trim();
+        if(!title) return;
+
+        var container = document.getElementById('ideasContainer');
+        var chip = document.createElement('div');
+        chip.className = 'idea-chip';
+
+        // Random position within safe zone
+        var x = 8 + Math.random() * 76;
+        var y = 8 + Math.random() * 72;
+        chip.style.left  = x + '%';
+        chip.style.top   = y + '%';
+        chip.style.setProperty('--dur',   (3.2 + Math.random() * 2.8) + 's');
+        chip.style.setProperty('--delay', (-Math.random() * 3) + 's');
+
+        chip.innerHTML =
+          '<span class="chip-icon">' + selectedIcon + '</span>' +
+          '<span class="chip-title">' + title + '</span>' +
+          (desc ? '<div class="chip-tooltip">' + desc + '</div>' : '');
+
+        container.appendChild(chip);
+        titleInput.value = '';
+        document.getElementById('ideaDesc').value = '';
+      });
     })();
   </script>
 </body>
