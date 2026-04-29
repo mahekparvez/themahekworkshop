@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Draw a Flower</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@400;500&display=swap');
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f7f2e8;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    /* ── Header ── */
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 32px;
+      border-bottom: 1px solid #e0d8c0;
+      background: #f7f2e8;
+      flex-shrink: 0;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    header h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      color: #2d5a1b;
+    }
+
+    .back-link {
+      font-size: 13px;
+      color: #8a7a5a;
+      text-decoration: none;
+      padding: 6px 14px;
+      border: 1px solid #d0c8a8;
+      border-radius: 50px;
+      transition: all 0.2s;
+    }
+
+    .back-link:hover { background: #f0e8c8; }
+
+    /* ── Layout ── */
+    .workspace {
+      display: flex;
+      flex: 1;
+      overflow: hidden;
+    }
+
+    /* ── Toolbar ── */
+    .toolbar {
+      width: 72px;
+      background: #fffcf5;
+      border-right: 1px solid #e0d8c0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 16px 0;
+      gap: 4px;
+      overflow-y: auto;
+    }
+
+    .tool-btn {
+      width: 48px;
+      height: 48px;
+      border: none;
+      background: transparent;
+      border-radius: 12px;
+      font-size: 20px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s;
+      position: relative;
+    }
+
+    .tool-btn:hover { background: #f0e8d0; }
+    .tool-btn.active { background: #2d5a1b; }
+    .tool-btn.active::after {
+      content: '';
+      position: absolute;
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 3px;
+      height: 24px;
+      background: #2d5a1b;
+      border-radius: 2px;
+    }
+
+    .toolbar-sep {
+      width: 36px;
+      height: 1px;
+      background: #e0d8c0;
+      margin: 6px 0;
+    }
+
+    /* ── Canvas area ── */
+    .canvas-area {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #f7f2e8;
+      position: relative;
+      overflow: hidden;
+    }
+
+    #drawCanvas {
+      background: #fffcf5;
+      border: 1.5px solid #d0c8a8;
+      border-radius: 16px;
+      box-shadow: 0 4px 32px rgba(80, 60, 20, 0.10);
+      cursor: crosshair;
+      touch-action: none;
+    }
+
+    /* ── Right panel ── */
+    .right-panel {
+      width: 220px;
+      background: #fffcf5;
+      border-left: 1px solid #e0d8c0;
+      padding: 20px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      overflow-y: auto;
+    }
+
+    .panel-section h3 {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #a09070;
+      margin-bottom: 10px;
+    }
+
+    /* Color palette */
+    .color-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 6px;
+    }
+
+    .color-swatch {
+      aspect-ratio: 1;
+      border-radius: 50%;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: transform 0.15s, border-color 0.15s;
+    }
+
+    .color-swatch:hover { transform: scale(1.15); }
+    .color-swatch.active { border-color: #2d5a1b; transform: scale(1.1); }
+
+    .color-custom {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .color-custom input[type=color] {
+      width: 32px;
+      height: 32px;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      padding: 0;
+      background: none;
+    }
+
+    .color-custom span {
+      font-size: 12px;
+      color: #8a7a5a;
+    }
+
+    /* Sliders */
+    .slider-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .slider-row label {
+      font-size: 12px;
+      color: #8a7a5a;
+      width: 50px;
+      flex-shrink: 0;
+    }
+
+    .slider-row input[type=range] {
+      flex: 1;
+      accent-color: #2d5a1b;
+      height: 4px;
+    }
+
+    .slider-row .val {
+      font-size: 12px;
+      color: #6a5830;
+      width: 28px;
+      text-align: right;
+    }
+
+    /* Flower stamp palette */
+    .stamp-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+
+    .stamp-btn {
+      aspect-ratio: 1;
+      border: 1.5px solid #e0d8c0;
+      border-radius: 10px;
+      background: #f7f2e8;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s;
+      padding: 4px;
+    }
+
+    .stamp-btn:hover { border-color: #2d5a1b; background: #f0ece0; }
+    .stamp-btn.active { border-color: #2d5a1b; background: #e8f0e0; }
+    .stamp-btn canvas { pointer-events: none; }
+
+    /* Action buttons */
+    .action-btn {
+      width: 100%;
+      padding: 10px;
+      border-radius: 50px;
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.2s;
+      border: 1.5px solid;
+    }
+
+    .action-btn.primary {
+      background: #2d5a1b;
+      border-color: #2d5a1b;
+      color: #fff;
+    }
+
+    .action-btn.primary:hover { background: #3a7022; }
+
+    .action-btn.secondary {
+      background: transparent;
+      border-color: #d0c8a8;
+      color: #6a5830;
+    }
+
+    .action-btn.secondary:hover { background: #f0e8c8; }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 32px;
+      left: 50%;
+      transform: translateX(-50%) translateY(80px);
+      background: #2d5a1b;
+      color: #fff;
+      padding: 12px 24px;
+      border-radius: 50px;
+      font-size: 14px;
+      transition: transform 0.3s ease;
+      z-index: 999;
+      pointer-events: none;
+    }
+
+    .toast.show { transform: translateX(-50%) translateY(0); }
+
+    @media (max-width: 768px) {
+      .right-panel { display: none; }
+      .toolbar { width: 56px; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="header-left">
+      <a href="gallery.html" class="back-link">← Gallery</a>
+      <h1>Draw a Flower</h1>
+    </div>
+    <div style="display:flex;gap:10px">
+      <button class="back-link" style="cursor:pointer;border:none;background:transparent;font-family:inherit" onclick="clearCanvas()">Clear</button>
+    </div>
+  </header>
+
+  <div class="workspace">
+    <!-- Left toolbar -->
+    <div class="toolbar">
+      <button class="tool-btn active" id="tool-pen" title="Pen" onclick="setTool('pen')">✏️</button>
+      <button class="tool-btn" id="tool-brush" title="Brush" onclick="setTool('brush')">🖌️</button>
+      <button class="tool-btn" id="tool-stamp" title="Stamp flower" onclick="setTool('stamp')">🌸</button>
+      <div class="toolbar-sep"></div>
+      <button class="tool-btn" id="tool-eraser" title="Eraser" onclick="setTool('eraser')">🧹</button>
+      <div class="toolbar-sep"></div>
+      <button class="tool-btn" title="Undo" onclick="undo()">↩️</button>
+      <button class="tool-btn" title="Redo" onclick="redo()">↪️</button>
+    </div>
+
+    <!-- Canvas -->
+    <div class="canvas-area">
+      <canvas id="drawCanvas"></canvas>
+    </div>
+
+    <!-- Right panel -->
+    <div class="right-panel">
+      <div class="panel-section">
+        <h3>Color</h3>
+        <div class="color-grid" id="colorGrid"></div>
+        <div class="color-custom">
+          <input type="color" id="customColor" value="#e84060" oninput="setColor(this.value)" />
+          <span>Custom color</span>
+        </div>
+      </div>
+
+      <div class="panel-section">
+        <h3>Brush</h3>
+        <div class="slider-row">
+          <label>Size</label>
+          <input type="range" id="sizeSlider" min="1" max="60" value="8" oninput="updateBrush()" />
+          <span class="val" id="sizeVal">8</span>
+        </div>
+        <div class="slider-row" style="margin-top:8px">
+          <label>Opacity</label>
+          <input type="range" id="opacSlider" min="5" max="100" value="100" oninput="updateBrush()" />
+          <span class="val" id="opacVal">100</span>
+        </div>
+      </div>
+
+      <div class="panel-section" id="stampSection" style="display:none">
+        <h3>Flower Stamp</h3>
+        <div class="stamp-grid" id="stampGrid"></div>
+        <div class="slider-row" style="margin-top:8px">
+          <label>Size</label>
+          <input type="range" id="stampSizeSlider" min="20" max="120" value="50" oninput="updateStampSize()" />
+          <span class="val" id="stampSizeVal">50</span>
+        </div>
+      </div>
+
+      <div class="panel-section">
+        <h3>Actions</h3>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <button class="action-btn primary" onclick="saveImage()">💾 Save as PNG</button>
+          <button class="action-btn secondary" onclick="clearCanvas()">🗑 Clear Canvas</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    // ── Canvas setup ──────────────────────────────────────────────────────────
+    const canvas = document.getElementById('drawCanvas');
+    const ctx = canvas.getContext('2d');
+
+    function resizeCanvas() {
+      const area = canvas.parentElement;
+      const maxW = area.clientWidth - 80;
+      const maxH = area.clientHeight - 40;
+      const size = Math.min(maxW, maxH, 720);
+      // Save content
+      const img = canvas.toDataURL();
+      canvas.width = size;
+      canvas.height = size;
+      // Restore
+      const i = new Image();
+      i.onload = () => ctx.drawImage(i, 0, 0);
+      i.src = img;
+    }
+
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    // ── State ─────────────────────────────────────────────────────────────────
+    let tool = 'pen';
+    let color = '#e84060';
+    let brushSize = 8;
+    let opacity = 1;
+    let stampSize = 50;
+    let selectedStamp = 'daisy';
+    let drawing = false;
+    let lastX = 0, lastY = 0;
+    let undoStack = [];
+    let redoStack = [];
+
+    function saveState() {
+      undoStack.push(canvas.toDataURL());
+      if (undoStack.length > 40) undoStack.shift();
+      redoStack = [];
+    }
+
+    function undo() {
+      if (!undoStack.length) return;
+      redoStack.push(canvas.toDataURL());
+      const prev = undoStack.pop();
+      const img = new Image();
+      img.onload = () => { ctx.clearRect(0, 0, canvas.width, canvas.height); ctx.drawImage(img, 0, 0); };
+      img.src = prev;
+    }
+
+    function redo() {
+      if (!redoStack.length) return;
+      undoStack.push(canvas.toDataURL());
+      const next = redoStack.pop();
+      const img = new Image();
+      img.onload = () => { ctx.clearRect(0, 0, canvas.width, canvas.height); ctx.drawImage(img, 0, 0); };
+      img.src = next;
+    }
+
+    // ── Tool switching ────────────────────────────────────────────────────────
+    function setTool(t) {
+      tool = t;
+      document.querySelectorAll('.tool-btn[id^=tool-]').forEach(b => b.classList.remove('active'));
+      document.getElementById('tool-' + t)?.classList.add('active');
+      canvas.style.cursor = t === 'eraser' ? 'cell' : t === 'stamp' ? 'copy' : 'crosshair';
+      document.getElementById('stampSection').style.display = t === 'stamp' ? 'block' : 'none';
+    }
+
+    // ── Color palette ─────────────────────────────────────────────────────────
+    const PALETTE = [
+      '#e84060','#f07070','#f0a060','#f5c842','#f0e050',
+      '#a0d070','#5a9a40','#50b8c8','#7090e0','#b070d0',
+      '#f0c0d0','#ffd8a8','#fff0b0','#d0f0c0','#b0e0f0',
+      '#d090b0','#a87850','#505050','#a0a0a0','#f5f0e8',
+    ];
+
+    const colorGrid = document.getElementById('colorGrid');
+    PALETTE.forEach(c => {
+      const sw = document.createElement('button');
+      sw.className = 'color-swatch';
+      sw.style.background = c;
+      sw.title = c;
+      sw.onclick = () => setColor(c);
+      if (c === color) sw.classList.add('active');
+      colorGrid.appendChild(sw);
+    });
+
+    function setColor(c) {
+      color = c;
+      document.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('active'));
+      const match = [...document.querySelectorAll('.color-swatch')].find(s => s.style.background === c || s.style.backgroundColor === c);
+      if (match) match.classList.add('active');
+      document.getElementById('customColor').value = c.startsWith('#') ? c : rgbToHex(c);
+    }
+
+    function rgbToHex(rgb) {
+      const r = rgb.match(/\d+/g);
+      if (!r) return '#000000';
+      return '#' + r.slice(0, 3).map(x => (+x).toString(16).padStart(2, '0')).join('');
+    }
+
+    // ── Sliders ───────────────────────────────────────────────────────────────
+    function updateBrush() {
+      brushSize = +document.getElementById('sizeSlider').value;
+      opacity = +document.getElementById('opacSlider').value / 100;
+      document.getElementById('sizeVal').textContent = brushSize;
+      document.getElementById('opacVal').textContent = document.getElementById('opacSlider').value;
+    }
+
+    function updateStampSize() {
+      stampSize = +document.getElementById('stampSizeSlider').value;
+      document.getElementById('stampSizeVal').textContent = stampSize;
+    }
+
+    // ── Flower drawing (shared with gallery) ──────────────────────────────────
+    const FLOWER_STAMP_TYPES = ['daisy','tulip','rose','sunflower','cosmos','cherry','wildflower','poppy'];
+
+    function seededRand(seed) {
+      let s = seed | 0;
+      return function() {
+        s = (s * 1664525 + 1013904223) & 0xffffffff;
+        return (s >>> 0) / 0xffffffff;
+      };
+    }
+
+    function drawStem(ctx, r, x, y) {
+      ctx.save();
+      ctx.beginPath();
+      ctx.moveTo(x, y + r * 0.35);
+      ctx.bezierCurveTo(x + r * 0.15, y + r * 0.7, x - r * 0.1, y + r, x, y + r * 1.2);
+      ctx.strokeStyle = '#5a8a3a';
+      ctx.lineWidth = Math.max(1.5, r * 0.09);
+      ctx.lineCap = 'round';
+      ctx.stroke();
+      ctx.restore();
+    }
+
+    function stampFlower(ctx, type, cx, cy, size, color, rotation) {
+      const r = size / 2;
+      const rand = seededRand(Math.floor(cx * 7 + cy * 13));
+      ctx.save();
+      ctx.translate(cx, cy);
+      ctx.rotate(rotation);
+
+      switch (type) {
+        case 'daisy': {
+          drawStem(ctx, r, 0, 0);
+          const petals = 10;
+          for (let i = 0; i < petals; i++) {
+            ctx.save(); ctx.rotate((i / petals) * Math.PI * 2);
+            ctx.beginPath();
+            ctx.ellipse(0, -r * 0.65, r * 0.22, r * 0.42, 0, 0, Math.PI * 2);
+            ctx.fillStyle = color; ctx.fill(); ctx.restore();
+          }
+          ctx.beginPath(); ctx.arc(0, 0, r * 0.28, 0, Math.PI * 2);
+          ctx.fillStyle = '#f5c842'; ctx.fill();
+          break;
+        }
+        case 'tulip': {
+          drawStem(ctx, r, 0, 0);
+          ctx.beginPath();
+          ctx.moveTo(0, -r * 0.55);
+          ctx.bezierCurveTo(r * 0.65, -r * 0.4, r * 0.72, r * 0.15, r * 0.3, r * 0.38);
+          ctx.bezierCurveTo(r * 0.1, r * 0.45, -r * 0.1, r * 0.45, -r * 0.3, r * 0.38);
+          ctx.bezierCurveTo(-r * 0.72, r * 0.15, -r * 0.65, -r * 0.4, 0, -r * 0.55);
+          ctx.fillStyle = color; ctx.fill();
+          break;
+        }
+        case 'rose': {
+          drawStem(ctx, r, 0, 0);
+          const rp = 5;
+          for (let i = 0; i < rp; i++) {
+            ctx.save(); ctx.rotate((i / rp) * Math.PI * 2);
+            ctx.beginPath();
+            ctx.ellipse(r * 0.38, -r * 0.25, r * 0.28, r * 0.42, 0.15 * Math.PI, 0, Math.PI * 2);
+            ctx.fillStyle = color; ctx.globalAlpha = 0.8; ctx.fill(); ctx.restore();
+          }
+          for (let i = 0; i < rp; i++) {
+            ctx.save(); ctx.rotate((i / rp) * Math.PI * 2 + Math.PI / rp);
+            ctx.beginPath();
+            ctx.ellipse(r * 0.18, -r * 0.1, r * 0.18, r * 0.28, 0.1 * Math.PI, 0, Math.PI * 2);
+            ctx.fillStyle = shiftColor(color, -20); ctx.globalAlpha = 0.9; ctx.fill(); ctx.restore();
+          }
+          ctx.globalAlpha = 1;
+          ctx.beginPath(); ctx.arc(0, 0, r * 0.18, 0, Math.PI * 2);
+          ctx.fillStyle = shiftColor(color, -30); ctx.fill();
+          break;
+        }
+        case 'sunflower': {
+          drawStem(ctx, r, 0, 0);
+          const sp = 14;
+          for (let i = 0; i < sp; i++) {
+            ctx.save(); ctx.rotate((i / sp) * Math.PI * 2);
+            ctx.beginPath();
+            ctx.ellipse(0, -r * 0.7, r * 0.2, r * 0.46, 0, 0, Math.PI * 2);
+            ctx.fillStyle = '#f5c020'; ctx.fill(); ctx.restore();
+          }
+          ctx.beginPath(); ctx.arc(0, 0, r * 0.36, 0, Math.PI * 2);
+          ctx.fillStyle = '#7a4010'; ctx.fill();
+          break;
+        }
+        case 'cosmos': {
+          drawStem(ctx, r, 0, 0);
+          for (let i = 0; i < 8; i++) {
+            ctx.save(); ctx.rotate((i / 8) * Math.PI * 2);
+            ctx.beginPath();
+            const pw = r * 0.26;
+            ctx.moveTo(0, -r * 0.15);
+            ctx.bezierCurveTo(pw, -r * 0.3, pw * 1.1, -r * 0.75, 0, -r * 0.95);
+            ctx.bezierCurveTo(-pw * 1.1, -r * 0.75, -pw, -r * 0.3, 0, -r * 0.15);
+            ctx.fillStyle = color; ctx.fill(); ctx.restore();
+          }
+          ctx.beginPath(); ctx.arc(0, 0, r * 0.22, 0, Math.PI * 2);
+          ctx.fillStyle = '#f5c842'; ctx.fill();
+          break;
+        }
+        case 'cherry': {
+          drawStem(ctx, r, 0, 0);
+          for (let i = 0; i < 5; i++) {
+            ctx.save(); ctx.rotate((i / 5) * Math.PI * 2);
+            ctx.beginPath();
+            ctx.ellipse(0, -r * 0.58, r * 0.3, r * 0.44, 0, 0, Math.PI * 2);
+            ctx.fillStyle = color; ctx.fill(); ctx.restore();
+          }
+          ctx.beginPath(); ctx.arc(0, 0, r * 0.2, 0, Math.PI * 2);
+          ctx.fillStyle = '#e89898'; ctx.fill();
+          break;
+        }
+        case 'wildflower': {
+          drawStem(ctx, r, 0, 0);
+          const wp = 7;
+          for (let i = 0; i < wp; i++) {
+            ctx.save(); ctx.rotate((i / wp) * Math.PI * 2 + rand() * 0.3);
+            const h = r * (0.5 + rand() * 0.35);
+            ctx.beginPath();
+            ctx.ellipse(0, -r * 0.3 - h / 2, r * 0.2, h / 2, 0, 0, Math.PI * 2);
+            ctx.fillStyle = color; ctx.fill(); ctx.restore();
+          }
+          ctx.beginPath(); ctx.arc(0, 0, r * 0.25, 0, Math.PI * 2);
+          ctx.fillStyle = '#f5c842'; ctx.fill();
+          break;
+        }
+        case 'poppy': {
+          drawStem(ctx, r, 0, 0);
+          for (let i = 0; i < 4; i++) {
+            ctx.save(); ctx.rotate((i / 4) * Math.PI * 2 + rand() * 0.2);
+            ctx.beginPath();
+            ctx.ellipse(r * 0.22, -r * 0.4, r * 0.42, r * 0.55, 0.1 * Math.PI, 0, Math.PI * 2);
+            ctx.fillStyle = color; ctx.globalAlpha = 0.85; ctx.fill(); ctx.restore();
+          }
+          ctx.globalAlpha = 1;
+          ctx.beginPath(); ctx.arc(0, 0, r * 0.24, 0, Math.PI * 2);
+          ctx.fillStyle = '#111'; ctx.fill();
+          break;
+        }
+      }
+      ctx.restore();
+    }
+
+    function shiftColor(hex, amount) {
+      let r = parseInt(hex.slice(1, 3), 16);
+      let g = parseInt(hex.slice(3, 5), 16);
+      let b = parseInt(hex.slice(5, 7), 16);
+      r = Math.max(0, Math.min(255, r + amount));
+      g = Math.max(0, Math.min(255, g + amount));
+      b = Math.max(0, Math.min(255, b + amount));
+      return '#' + [r, g, b].map(x => x.toString(16).padStart(2, '0')).join('');
+    }
+
+    // ── Stamp palette ─────────────────────────────────────────────────────────
+    const stampGrid = document.getElementById('stampGrid');
+    FLOWER_STAMP_TYPES.forEach(type => {
+      const btn = document.createElement('button');
+      btn.className = 'stamp-btn' + (type === selectedStamp ? ' active' : '');
+      btn.title = type;
+      btn.dataset.type = type;
+
+      const cv = document.createElement('canvas');
+      cv.width = 44; cv.height = 44;
+      const sctx = cv.getContext('2d');
+      stampFlower(sctx, type, 22, 26, 32, '#e84060', 0);
+
+      btn.appendChild(cv);
+      btn.onclick = () => {
+        selectedStamp = type;
+        document.querySelectorAll('.stamp-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+      };
+      stampGrid.appendChild(btn);
+    });
+
+    // ── Drawing logic ─────────────────────────────────────────────────────────
+    function getPos(e) {
+      const rect = canvas.getBoundingClientRect();
+      const scaleX = canvas.width / rect.width;
+      const scaleY = canvas.height / rect.height;
+      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+      const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+      return {
+        x: (clientX - rect.left) * scaleX,
+        y: (clientY - rect.top) * scaleY,
+      };
+    }
+
+    canvas.addEventListener('pointerdown', e => {
+      const pos = getPos(e);
+      if (tool === 'stamp') {
+        saveState();
+        const rot = (Math.random() - 0.5) * 0.6;
+        ctx.save();
+        ctx.globalAlpha = opacity;
+        stampFlower(ctx, selectedStamp, pos.x, pos.y, stampSize, color, rot);
+        ctx.restore();
+        return;
+      }
+      saveState();
+      drawing = true;
+      lastX = pos.x;
+      lastY = pos.y;
+      ctx.save();
+      ctx.globalAlpha = opacity;
+      ctx.strokeStyle = tool === 'eraser' ? null : color;
+      ctx.lineWidth = brushSize;
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+      ctx.beginPath();
+      ctx.moveTo(pos.x, pos.y);
+    });
+
+    canvas.addEventListener('pointermove', e => {
+      if (!drawing) return;
+      const pos = getPos(e);
+      if (tool === 'eraser') {
+        ctx.clearRect(pos.x - brushSize / 2, pos.y - brushSize / 2, brushSize, brushSize);
+      } else if (tool === 'brush') {
+        // Soft brush
+        const gradient = ctx.createRadialGradient(pos.x, pos.y, 0, pos.x, pos.y, brushSize / 2);
+        gradient.addColorStop(0, color);
+        gradient.addColorStop(1, 'transparent');
+        ctx.globalAlpha = opacity * 0.3;
+        ctx.beginPath();
+        ctx.arc(pos.x, pos.y, brushSize / 2, 0, Math.PI * 2);
+        ctx.fillStyle = gradient;
+        ctx.fill();
+      } else {
+        ctx.lineTo(pos.x, pos.y);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(pos.x, pos.y);
+      }
+      lastX = pos.x;
+      lastY = pos.y;
+    });
+
+    canvas.addEventListener('pointerup', () => {
+      if (drawing) {
+        drawing = false;
+        ctx.restore();
+      }
+    });
+
+    canvas.addEventListener('pointerleave', () => {
+      if (drawing) { drawing = false; ctx.restore(); }
+    });
+
+    // Touch support
+    canvas.addEventListener('touchstart', e => e.preventDefault(), { passive: false });
+    canvas.addEventListener('touchmove', e => e.preventDefault(), { passive: false });
+
+    // ── Actions ───────────────────────────────────────────────────────────────
+    function clearCanvas() {
+      saveState();
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+
+    function saveImage() {
+      const link = document.createElement('a');
+      link.download = 'my-flower-drawing.png';
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+      showToast('Saved as PNG!');
+    }
+
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 2500);
+    }
+
+    // Keyboard shortcuts
+    document.addEventListener('keydown', e => {
+      if (e.ctrlKey || e.metaKey) {
+        if (e.key === 'z') { e.preventDefault(); undo(); }
+        if (e.key === 'y' || (e.key === 'z' && e.shiftKey)) { e.preventDefault(); redo(); }
+        if (e.key === 's') { e.preventDefault(); saveImage(); }
+      }
+      if (e.key === 'e') setTool('eraser');
+      if (e.key === 'p') setTool('pen');
+      if (e.key === 'b') setTool('brush');
+      if (e.key === 'f') setTool('stamp');
+    });
+  </script>
+</body>
+</html>

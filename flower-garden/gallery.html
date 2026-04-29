@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Flower Gallery</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@400;500&display=swap');
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f7f2e8;
+      min-height: 100vh;
+      color: #3c3320;
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 32px 48px 16px;
+    }
+
+    .header-left h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 32px;
+      color: #2d5a1b;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      white-space: nowrap;
+    }
+
+    .header-left .count {
+      font-size: 13px;
+      color: #8a7a5a;
+      margin-top: 4px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .header-right {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .btn {
+      padding: 10px 22px;
+      border-radius: 50px;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 1.5px solid #c0a860;
+      color: #6a5830;
+    }
+
+    .btn-outline:hover {
+      background: #f0e8c8;
+    }
+
+    .btn-solid {
+      background: #2d5a1b;
+      border: 1.5px solid #2d5a1b;
+      color: #fff;
+    }
+
+    .btn-solid:hover {
+      background: #3a7022;
+    }
+
+    /* Filter bar */
+    .filter-bar {
+      display: flex;
+      gap: 10px;
+      padding: 0 60px 24px;
+      flex-wrap: wrap;
+    }
+
+    .filter-chip {
+      padding: 6px 16px;
+      border-radius: 50px;
+      border: 1.5px solid #d4c8a0;
+      background: transparent;
+      font-size: 13px;
+      color: #7a6840;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .filter-chip:hover, .filter-chip.active {
+      background: #2d5a1b;
+      border-color: #2d5a1b;
+      color: #fff;
+    }
+
+    /* Grid */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+      gap: 4px;
+      padding: 0 48px 40px;
+    }
+
+    .flower-cell {
+      aspect-ratio: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      border-radius: 12px;
+      transition: transform 0.15s ease, background 0.15s ease;
+      position: relative;
+    }
+
+    .flower-cell:hover {
+      transform: scale(1.12);
+      background: rgba(255, 252, 240, 0.7);
+      z-index: 2;
+    }
+
+    .flower-cell canvas {
+      width: 60px;
+      height: 60px;
+      display: block;
+    }
+
+    /* Tooltip */
+    .flower-cell .tooltip {
+      position: absolute;
+      bottom: calc(100% + 6px);
+      left: 50%;
+      transform: translateX(-50%);
+      background: #2d5a1b;
+      color: #fff;
+      font-size: 11px;
+      padding: 4px 10px;
+      border-radius: 20px;
+      white-space: nowrap;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.15s;
+    }
+
+    .flower-cell:hover .tooltip { opacity: 1; }
+
+    /* Pagination */
+    .pagination {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      padding: 20px 0 48px;
+    }
+
+    .page-btn {
+      padding: 10px 24px;
+      border-radius: 50px;
+      border: 1.5px solid #c0a860;
+      background: transparent;
+      font-size: 14px;
+      color: #6a5830;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .page-btn:hover:not(:disabled) {
+      background: #f0e8c8;
+    }
+
+    .page-btn:disabled {
+      opacity: 0.35;
+      cursor: default;
+    }
+
+    .page-info {
+      font-size: 14px;
+      color: #8a7a5a;
+    }
+
+    .page-btn.next {
+      background: #2d5a1b;
+      border-color: #2d5a1b;
+      color: #fff;
+    }
+
+    .page-btn.next:hover:not(:disabled) {
+      background: #3a7022;
+    }
+
+    /* Modal */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(50, 40, 20, 0.45);
+      backdrop-filter: blur(4px);
+      z-index: 100;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-overlay.open { display: flex; }
+
+    .modal {
+      background: #fffcf5;
+      border: 1.5px solid #d4c8a0;
+      border-radius: 24px;
+      padding: 40px;
+      text-align: center;
+      max-width: 320px;
+      width: 90%;
+    }
+
+    .modal canvas { margin: 0 auto 20px; display: block; }
+    .modal h2 { font-family: 'Playfair Display', serif; color: #2d5a1b; font-size: 22px; margin-bottom: 6px; }
+    .modal p { font-size: 13px; color: #8a7a5a; line-height: 1.6; margin-bottom: 20px; }
+    .modal-close {
+      position: absolute;
+      top: 16px; right: 20px;
+      font-size: 22px;
+      cursor: pointer;
+      color: #a09070;
+      background: none;
+      border: none;
+    }
+
+    @media (max-width: 600px) {
+      header { padding: 28px 24px 16px; flex-direction: column; gap: 16px; }
+      .filter-bar { padding: 0 24px 20px; }
+      .gallery-grid { padding: 0 24px 32px; grid-template-columns: repeat(auto-fill, minmax(72px, 1fr)); }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="header-left">
+      <h1>Flower Gallery</h1>
+      <div class="count" id="totalCount">0 total flowers</div>
+    </div>
+    <div class="header-right">
+      <a href="draw.html" class="btn btn-outline">✏️ Draw a Flower</a>
+      <a href="login.html" class="btn btn-outline">← Sign In</a>
+    </div>
+  </header>
+
+  <div class="filter-bar" id="filterBar">
+    <button class="filter-chip active" data-type="all">All</button>
+    <button class="filter-chip" data-type="daisy">Daisy</button>
+    <button class="filter-chip" data-type="tulip">Tulip</button>
+    <button class="filter-chip" data-type="rose">Rose</button>
+    <button class="filter-chip" data-type="sunflower">Sunflower</button>
+    <button class="filter-chip" data-type="cosmos">Cosmos</button>
+    <button class="filter-chip" data-type="cherry">Cherry Blossom</button>
+    <button class="filter-chip" data-type="wildflower">Wildflower</button>
+    <button class="filter-chip" data-type="poppy">Poppy</button>
+  </div>
+
+  <div class="gallery-grid" id="gallery"></div>
+
+  <div class="pagination">
+    <button class="page-btn" id="prevBtn" onclick="changePage(-1)" disabled>← Previous</button>
+    <span class="page-info" id="pageInfo">Page 1 of 1</span>
+    <button class="page-btn next" id="nextBtn" onclick="changePage(1)">Next →</button>
+  </div>
+
+  <div class="modal-overlay" id="modal" onclick="closeModal(event)">
+    <div class="modal" style="position:relative">
+      <button class="modal-close" onclick="document.getElementById('modal').classList.remove('open')">×</button>
+      <canvas id="modalCanvas" width="180" height="180"></canvas>
+      <h2 id="modalName"></h2>
+      <p id="modalDesc"></p>
+      <a href="draw.html" class="btn btn-solid" style="width:100%;justify-content:center">Draw Your Own →</a>
+    </div>
+  </div>
+
+  <script>
+    // ── Flower definitions ────────────────────────────────────────────────────
+    const FLOWER_TYPES = {
+      daisy:      { label: 'Daisy',          desc: 'A cheerful flower with white petals and a bright yellow center.', petals: 12, colors: ['#ffeedd','#ffe0f0','#fff8c0','#e8f4ff','#f0ffe0','#ffe8e8'], center: ['#f5c842','#f0a830','#e8c050','#f09020'] },
+      tulip:      { label: 'Tulip',          desc: 'An elegant cup-shaped bloom, a symbol of perfect love.', petals: 6,  colors: ['#f07070','#e05080','#f09060','#d060a0','#6090d0','#90c860','#f0d040'], center: null },
+      rose:       { label: 'Rose',           desc: 'A timeless flower with spiraling petals and a sweet fragrance.', petals: 16, colors: ['#e84060','#d03050','#e87050','#c050a0','#b04880'], center: ['#c83050','#b82848','#a04080'] },
+      sunflower:  { label: 'Sunflower',      desc: 'Tall and golden, always turning toward the light.', petals: 14, colors: ['#f5c020','#f0a818','#f8d040','#f8a820'], center: ['#7a4010','#6a3008','#8a5018'] },
+      cosmos:     { label: 'Cosmos',         desc: 'Delicate and airy, a meadow favorite.', petals: 8,  colors: ['#e890c8','#d070b8','#f0a8d8','#c860a8','#a060d0','#e870a0'], center: ['#f5c842','#f0a830','#fff0a0'] },
+      cherry:     { label: 'Cherry Blossom', desc: 'Soft pink petals that drift like snow in spring.', petals: 5,  colors: ['#f5c0d0','#f0a8c0','#f8d0e0','#fde0e0','#ffc8d8'], center: ['#e89898','#d88080','#f8b0b0'] },
+      wildflower: { label: 'Wildflower',     desc: 'Free-spirited and untamed, growing wherever it pleases.', petals: 7,  colors: ['#9090e0','#7070d0','#b0b0f0','#e070a0','#60c0a0','#d0a040','#e08050'], center: ['#f5c842','#fff8e8','#f0a830'] },
+      poppy:      { label: 'Poppy',          desc: 'Bold and vivid, a brilliant splash of color.', petals: 4,  colors: ['#e83020','#d02010','#f04030','#f06020','#e84880'], center: ['#202020','#101010'] },
+    };
+
+    const TYPE_KEYS = Object.keys(FLOWER_TYPES);
+    const PER_PAGE = 400;
+    const TOTAL = 187778;
+
+    // Each flower has a deterministic seed
+    let allFlowers = [];
+    let filtered = [];
+    let currentPage = 1;
+    let currentFilter = 'all';
+
+    function seededRand(seed) {
+      let s = seed;
+      return function() {
+        s = (s * 1664525 + 1013904223) & 0xffffffff;
+        return (s >>> 0) / 0xffffffff;
+      };
+    }
+
+    function hash32(n) {
+      // Wang hash — distributes uniformly regardless of input sequence
+      n = ((n >> 16) ^ n) * 0x45d9f3b | 0;
+      n = ((n >> 16) ^ n) * 0x45d9f3b | 0;
+      n = (n >> 16) ^ n;
+      return (n >>> 0) / 0xffffffff;
+    }
+
+    function generateFlowers(count) {
+      const flowers = [];
+      for (let i = 0; i < count; i++) {
+        const h = (k) => hash32(i * 97 + k * 1000003);
+        const type = TYPE_KEYS[Math.floor(h(0) * TYPE_KEYS.length)];
+        const def = FLOWER_TYPES[type];
+        const colorIdx = Math.floor(h(1) * def.colors.length);
+        flowers.push({
+          id: i,
+          type,
+          seed: i,
+          color: def.colors[colorIdx],
+          centerColor: def.center ? def.center[Math.floor(h(2) * def.center.length)] : null,
+          rotation: h(3) * Math.PI * 2,
+          petalCount: def.petals + Math.floor(h(4) * 4) - 2,
+          size: 0.8 + h(5) * 0.4,
+        });
+      }
+      return flowers;
+    }
+
+    // ── Drawing functions ─────────────────────────────────────────────────────
+    function drawFlower(ctx, flower, cx, cy, scale = 1) {
+      const r = seededRand(flower.seed * 31 + 17);
+      const baseR = 24 * flower.size * scale;
+
+      ctx.save();
+      ctx.translate(cx, cy);
+      ctx.rotate(flower.rotation);
+
+      switch (flower.type) {
+        case 'daisy':     drawDaisy(ctx, baseR, flower.color, flower.centerColor, flower.petalCount, r); break;
+        case 'tulip':     drawTulip(ctx, baseR, flower.color, r); break;
+        case 'rose':      drawRose(ctx, baseR, flower.color, flower.centerColor, r); break;
+        case 'sunflower': drawSunflower(ctx, baseR, flower.color, flower.centerColor, flower.petalCount, r); break;
+        case 'cosmos':    drawCosmos(ctx, baseR, flower.color, flower.centerColor, r); break;
+        case 'cherry':    drawCherry(ctx, baseR, flower.color, flower.centerColor, r); break;
+        case 'wildflower':drawWildflower(ctx, baseR, flower.color, flower.centerColor, flower.petalCount, r); break;
+        case 'poppy':     drawPoppy(ctx, baseR, flower.color, flower.centerColor, r); break;
+      }
+
+      ctx.restore();
+    }
+
+    function drawStem(ctx, r, color) {
+      ctx.save();
+      const stemH = r * 1.1;
+      ctx.beginPath();
+      ctx.moveTo(0, r * 0.35);
+      ctx.bezierCurveTo(r * 0.15, r * 0.6, -r * 0.1, r * 0.9, 0, stemH);
+      ctx.strokeStyle = color || '#5a8a3a';
+      ctx.lineWidth = Math.max(1.5, r * 0.09);
+      ctx.lineCap = 'round';
+      ctx.stroke();
+      // leaf
+      ctx.beginPath();
+      ctx.moveTo(r * 0.05, r * 0.7);
+      ctx.bezierCurveTo(r * 0.5, r * 0.5, r * 0.55, r * 0.85, r * 0.1, r * 0.88);
+      ctx.fillStyle = '#6a9a48';
+      ctx.fill();
+      ctx.restore();
+    }
+
+    function drawDaisy(ctx, r, color, centerColor, petals, rand) {
+      drawStem(ctx, r);
+      for (let i = 0; i < petals; i++) {
+        ctx.save();
+        ctx.rotate((i / petals) * Math.PI * 2 + rand() * 0.1);
+        ctx.beginPath();
+        ctx.ellipse(0, -r * 0.65, r * 0.22, r * 0.42, 0, 0, Math.PI * 2);
+        ctx.fillStyle = color;
+        ctx.fill();
+        ctx.restore();
+      }
+      ctx.beginPath();
+      ctx.arc(0, 0, r * 0.28, 0, Math.PI * 2);
+      ctx.fillStyle = centerColor;
+      ctx.fill();
+    }
+
+    function drawTulip(ctx, r, color, rand) {
+      drawStem(ctx, r);
+      // cup shape
+      ctx.beginPath();
+      ctx.moveTo(0, -r * 0.55);
+      ctx.bezierCurveTo(r * 0.65, -r * 0.4, r * 0.72, r * 0.15, r * 0.3, r * 0.38);
+      ctx.bezierCurveTo(r * 0.1, r * 0.45, -r * 0.1, r * 0.45, -r * 0.3, r * 0.38);
+      ctx.bezierCurveTo(-r * 0.72, r * 0.15, -r * 0.65, -r * 0.4, 0, -r * 0.55);
+      ctx.fillStyle = color;
+      ctx.fill();
+      // inner petal lines
+      ctx.beginPath();
+      ctx.moveTo(0, -r * 0.55);
+      ctx.bezierCurveTo(0, -r * 0.1, 0, r * 0.2, 0, r * 0.38);
+      ctx.strokeStyle = 'rgba(0,0,0,0.12)';
+      ctx.lineWidth = 1;
+      ctx.stroke();
+    }
+
+    function drawRose(ctx, r, color, centerColor, rand) {
+      drawStem(ctx, r);
+      const petals = 5;
+      // outer petals
+      for (let i = 0; i < petals; i++) {
+        ctx.save();
+        ctx.rotate((i / petals) * Math.PI * 2);
+        ctx.beginPath();
+        ctx.ellipse(r * 0.38, -r * 0.25, r * 0.28, r * 0.42, Math.PI * 0.15, 0, Math.PI * 2);
+        ctx.fillStyle = color;
+        ctx.globalAlpha = 0.8;
+        ctx.fill();
+        ctx.restore();
+      }
+      // inner petals
+      for (let i = 0; i < petals; i++) {
+        ctx.save();
+        ctx.rotate((i / petals) * Math.PI * 2 + Math.PI / petals);
+        ctx.beginPath();
+        ctx.ellipse(r * 0.2, -r * 0.1, r * 0.18, r * 0.3, Math.PI * 0.1, 0, Math.PI * 2);
+        ctx.fillStyle = centerColor || color;
+        ctx.globalAlpha = 0.9;
+        ctx.fill();
+        ctx.restore();
+      }
+      ctx.globalAlpha = 1;
+      ctx.beginPath();
+      ctx.arc(0, 0, r * 0.18, 0, Math.PI * 2);
+      ctx.fillStyle = centerColor || color;
+      ctx.fill();
+    }
+
+    function drawSunflower(ctx, r, color, centerColor, petals, rand) {
+      drawStem(ctx, r);
+      for (let i = 0; i < petals; i++) {
+        ctx.save();
+        ctx.rotate((i / petals) * Math.PI * 2 + rand() * 0.05);
+        ctx.beginPath();
+        ctx.ellipse(0, -r * 0.7, r * 0.2, r * 0.46, 0, 0, Math.PI * 2);
+        ctx.fillStyle = color;
+        ctx.fill();
+        ctx.restore();
+      }
+      ctx.beginPath();
+      ctx.arc(0, 0, r * 0.36, 0, Math.PI * 2);
+      ctx.fillStyle = centerColor;
+      ctx.fill();
+      // center texture dots
+      for (let i = 0; i < 8; i++) {
+        const angle = (i / 8) * Math.PI * 2;
+        ctx.beginPath();
+        ctx.arc(Math.cos(angle) * r * 0.18, Math.sin(angle) * r * 0.18, r * 0.05, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(255,200,100,0.4)';
+        ctx.fill();
+      }
+    }
+
+    function drawCosmos(ctx, r, color, centerColor, rand) {
+      drawStem(ctx, r);
+      const petals = 8;
+      for (let i = 0; i < petals; i++) {
+        ctx.save();
+        ctx.rotate((i / petals) * Math.PI * 2);
+        ctx.beginPath();
+        const pw = r * 0.26;
+        const ph = r * 0.52;
+        ctx.moveTo(0, -r * 0.15);
+        ctx.bezierCurveTo(pw, -r * 0.3, pw * 1.1, -r * 0.75, 0, -r * 0.95);
+        ctx.bezierCurveTo(-pw * 1.1, -r * 0.75, -pw, -r * 0.3, 0, -r * 0.15);
+        ctx.fillStyle = color;
+        ctx.fill();
+        ctx.restore();
+      }
+      ctx.beginPath();
+      ctx.arc(0, 0, r * 0.22, 0, Math.PI * 2);
+      ctx.fillStyle = centerColor;
+      ctx.fill();
+    }
+
+    function drawCherry(ctx, r, color, centerColor, rand) {
+      drawStem(ctx, r);
+      const petals = 5;
+      for (let i = 0; i < petals; i++) {
+        ctx.save();
+        ctx.rotate((i / petals) * Math.PI * 2);
+        ctx.beginPath();
+        ctx.ellipse(0, -r * 0.58, r * 0.3, r * 0.44, 0, 0, Math.PI * 2);
+        ctx.fillStyle = color;
+        ctx.fill();
+        // heart notch
+        ctx.beginPath();
+        ctx.arc(0, -r * 0.95, r * 0.08, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(255,255,255,0.4)';
+        ctx.fill();
+        ctx.restore();
+      }
+      ctx.beginPath();
+      ctx.arc(0, 0, r * 0.2, 0, Math.PI * 2);
+      ctx.fillStyle = centerColor;
+      ctx.fill();
+    }
+
+    function drawWildflower(ctx, r, color, centerColor, petals, rand) {
+      drawStem(ctx, r);
+      for (let i = 0; i < petals; i++) {
+        ctx.save();
+        ctx.rotate((i / petals) * Math.PI * 2 + rand() * 0.3);
+        ctx.beginPath();
+        const h = r * (0.5 + rand() * 0.35);
+        ctx.ellipse(0, -r * 0.3 - h / 2, r * 0.2, h / 2, 0, 0, Math.PI * 2);
+        ctx.fillStyle = color;
+        ctx.fill();
+        ctx.restore();
+      }
+      ctx.beginPath();
+      ctx.arc(0, 0, r * 0.25, 0, Math.PI * 2);
+      ctx.fillStyle = centerColor;
+      ctx.fill();
+    }
+
+    function drawPoppy(ctx, r, color, centerColor, rand) {
+      drawStem(ctx, r);
+      const petals = 4;
+      for (let i = 0; i < petals; i++) {
+        ctx.save();
+        ctx.rotate((i / petals) * Math.PI * 2 + rand() * 0.2);
+        ctx.beginPath();
+        ctx.ellipse(r * 0.22, -r * 0.4, r * 0.42, r * 0.55, Math.PI * 0.1, 0, Math.PI * 2);
+        ctx.fillStyle = color;
+        ctx.globalAlpha = 0.85;
+        ctx.fill();
+        ctx.restore();
+      }
+      ctx.globalAlpha = 1;
+      ctx.beginPath();
+      ctx.arc(0, 0, r * 0.24, 0, Math.PI * 2);
+      ctx.fillStyle = centerColor || '#111';
+      ctx.fill();
+      // stamens
+      for (let i = 0; i < 6; i++) {
+        const a = (i / 6) * Math.PI * 2;
+        ctx.beginPath();
+        ctx.moveTo(0, 0);
+        ctx.lineTo(Math.cos(a) * r * 0.32, Math.sin(a) * r * 0.32);
+        ctx.strokeStyle = 'rgba(255,255,255,0.5)';
+        ctx.lineWidth = 1;
+        ctx.stroke();
+      }
+    }
+
+    // ── Render page ───────────────────────────────────────────────────────────
+    function renderGallery() {
+      const gallery = document.getElementById('gallery');
+      gallery.innerHTML = '';
+
+      const start = (currentPage - 1) * PER_PAGE;
+      const pageFlowers = filtered.slice(start, start + PER_PAGE);
+      const totalPages = Math.ceil(filtered.length / PER_PAGE);
+
+      document.getElementById('pageInfo').textContent = `Page ${currentPage} of ${totalPages}`;
+      document.getElementById('prevBtn').disabled = currentPage === 1;
+      document.getElementById('nextBtn').disabled = currentPage === totalPages;
+      document.getElementById('totalCount').textContent = `${filtered.length.toLocaleString()} total flowers`;
+
+      pageFlowers.forEach(flower => {
+        const cell = document.createElement('div');
+        cell.className = 'flower-cell';
+
+        const cv = document.createElement('canvas');
+        cv.width = 60;
+        cv.height = 60;
+        const ctx = cv.getContext('2d');
+        drawFlower(ctx, flower, 30, 36, 0.65);
+
+        const tip = document.createElement('div');
+        tip.className = 'tooltip';
+        tip.textContent = FLOWER_TYPES[flower.type].label;
+
+        cell.appendChild(cv);
+        cell.appendChild(tip);
+        cell.addEventListener('click', () => openModal(flower));
+        gallery.appendChild(cell);
+      });
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function openModal(flower) {
+      const modal = document.getElementById('modal');
+      const cv = document.getElementById('modalCanvas');
+      const ctx = cv.getContext('2d');
+      ctx.clearRect(0, 0, 180, 180);
+      drawFlower(ctx, flower, 90, 110, 2.2);
+      document.getElementById('modalName').textContent = FLOWER_TYPES[flower.type].label;
+      document.getElementById('modalDesc').textContent = FLOWER_TYPES[flower.type].desc;
+      modal.classList.add('open');
+    }
+
+    function closeModal(e) {
+      if (e.target.id === 'modal') document.getElementById('modal').classList.remove('open');
+    }
+
+    function changePage(dir) {
+      const totalPages = Math.ceil(filtered.length / PER_PAGE);
+      currentPage = Math.max(1, Math.min(totalPages, currentPage + dir));
+      renderGallery();
+    }
+
+    // ── Filter ────────────────────────────────────────────────────────────────
+    document.getElementById('filterBar').addEventListener('click', e => {
+      const chip = e.target.closest('.filter-chip');
+      if (!chip) return;
+      document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      currentFilter = chip.dataset.type;
+      currentPage = 1;
+      filtered = currentFilter === 'all'
+        ? allFlowers
+        : allFlowers.filter(f => f.type === currentFilter);
+      renderGallery();
+    });
+
+    // ── Init ──────────────────────────────────────────────────────────────────
+    allFlowers = generateFlowers(TOTAL);
+    filtered = allFlowers;
+    renderGallery();
+  </script>
+</body>
+</html>
