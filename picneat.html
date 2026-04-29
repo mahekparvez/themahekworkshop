@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PicNEat — Mahek Parvez</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&family=Orbitron:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      min-height: 100vh;
+      background: #F0EDE6;
+      font-family: 'Fredoka', sans-serif;
+      padding: 56px 20px 100px;
+    }
+
+    .wrap {
+      max-width: 760px;
+      margin: 0 auto;
+      animation: rise 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(-8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── Header ── */
+    .page-header {
+      border: 2px solid #0D0D0D;
+      border-bottom: none;
+      padding: 14px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .back-btn {
+      text-decoration: none;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #0D0D0D;
+      opacity: 0.4;
+      transition: opacity 0.2s, color 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .back-btn:hover { opacity: 1; color: #D92B2B; }
+
+    .header-tag {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(13,13,13,0.3);
+    }
+
+    /* ── Hero ── */
+    .hero {
+      border: 2px solid #0D0D0D;
+      border-bottom: none;
+      padding: 44px 52px 40px;
+      background: #0D0D0D;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: 'PNE';
+      position: absolute;
+      right: -10px;
+      bottom: -28px;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 150px;
+      font-weight: 800;
+      color: rgba(255,255,255,0.04);
+      letter-spacing: -4px;
+      line-height: 1;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .project-label {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #C8A800;
+      margin-bottom: 10px;
+    }
+
+    .project-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: clamp(48px, 13vw, 96px);
+      font-weight: 800;
+      color: #F0EDE6;
+      letter-spacing: -3px;
+      line-height: 0.9;
+      margin-bottom: 22px;
+    }
+
+    .status-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .status-pill {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(240,237,230,0.45);
+    }
+
+    .dot-built { width: 6px; height: 6px; border-radius: 50%; background: #C8A800; flex-shrink: 0; }
+
+    .hero-tags { display: flex; flex-wrap: wrap; gap: 5px; }
+    .hero-tag {
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border: 1px solid rgba(240,237,230,0.2);
+      color: rgba(240,237,230,0.55);
+    }
+
+    /* ── Body ── */
+    .page-body {
+      border: 2px solid #0D0D0D;
+      border-bottom: none;
+      background: #F0EDE6;
+    }
+
+    .section {
+      padding: 36px 52px;
+      border-bottom: 1.5px solid rgba(13,13,13,0.1);
+    }
+    .section:last-child { border-bottom: none; }
+
+    .section-label {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #D92B2B;
+      margin-bottom: 14px;
+    }
+
+    .body-text {
+      font-size: 15px;
+      line-height: 1.75;
+      color: #0D0D0D;
+      opacity: 0.78;
+    }
+
+    /* ── Version timeline ── */
+    .version-intro {
+      font-size: 14px;
+      line-height: 1.7;
+      color: #0D0D0D;
+      opacity: 0.65;
+      margin-bottom: 24px;
+    }
+
+    .versions {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      border: 2px solid #0D0D0D;
+    }
+
+    .version-row {
+      display: grid;
+      grid-template-columns: 52px 1fr auto;
+      align-items: center;
+      gap: 0;
+      border-bottom: 1px solid rgba(13,13,13,0.1);
+      text-decoration: none;
+      background: #F0EDE6;
+      transition: background 0.13s;
+    }
+    .version-row:last-child { border-bottom: none; }
+    .version-row:hover { background: #0D0D0D; }
+
+    .v-num {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      color: rgba(13,13,13,0.25);
+      padding: 14px 0 14px 18px;
+      transition: color 0.13s;
+    }
+    .version-row:hover .v-num { color: rgba(240,237,230,0.3); }
+
+    .v-body {
+      padding: 14px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .v-tool {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #0D0D0D;
+      transition: color 0.13s;
+    }
+    .version-row:hover .v-tool { color: #F0EDE6; }
+
+    .v-label {
+      font-size: 12px;
+      color: #0D0D0D;
+      opacity: 0.45;
+      transition: color 0.13s, opacity 0.13s;
+    }
+    .version-row:hover .v-label { color: #F0EDE6; opacity: 0.5; }
+
+    .v-arrow {
+      padding: 14px 18px;
+      font-size: 14px;
+      color: rgba(13,13,13,0.25);
+      transition: color 0.13s;
+      flex-shrink: 0;
+    }
+    .version-row:hover .v-arrow { color: rgba(240,237,230,0.6); }
+
+    /* Latest version highlight */
+    .version-row.latest {
+      background: #0D0D0D;
+    }
+    .version-row.latest .v-num { color: rgba(240,237,230,0.3); }
+    .version-row.latest .v-tool { color: #F0EDE6; }
+    .version-row.latest .v-label { color: rgba(240,237,230,0.5); opacity: 1; }
+    .version-row.latest .v-arrow { color: rgba(240,237,230,0.55); }
+    .version-row.latest:hover { background: #D92B2B; }
+
+    .v-badge {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 7.5px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #C8A800;
+      border: 1px solid #C8A800;
+      padding: 2px 6px;
+      margin-left: 8px;
+      vertical-align: middle;
+    }
+
+    /* ── Reference links ── */
+    .refs-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .ref-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      text-decoration: none;
+      padding: 10px 14px;
+      border: 1px solid rgba(13,13,13,0.12);
+      background: transparent;
+      transition: background 0.13s, border-color 0.13s;
+    }
+    .ref-item:hover { background: #0D0D0D; border-color: #0D0D0D; }
+
+    .ref-bullet {
+      font-size: 10px;
+      color: #D92B2B;
+      flex-shrink: 0;
+      padding-top: 3px;
+      font-weight: 700;
+    }
+
+    .ref-body-text {
+      flex: 1;
+    }
+
+    .ref-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 9.5px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #0D0D0D;
+      line-height: 1.4;
+      transition: color 0.13s;
+    }
+    .ref-item:hover .ref-title { color: #F0EDE6; }
+
+    .ref-url {
+      font-size: 11px;
+      color: rgba(13,13,13,0.4);
+      line-height: 1.4;
+      margin-top: 1px;
+      transition: color 0.13s;
+      word-break: break-all;
+    }
+    .ref-item:hover .ref-url { color: rgba(240,237,230,0.45); }
+
+    .ref-ext {
+      font-size: 13px;
+      color: rgba(13,13,13,0.25);
+      flex-shrink: 0;
+      padding-top: 1px;
+      transition: color 0.13s;
+    }
+    .ref-item:hover .ref-ext { color: rgba(240,237,230,0.5); }
+
+    /* ── Skills ── */
+    .skills-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+    }
+    .skill-chip {
+      font-size: 12px;
+      font-weight: 500;
+      color: #0D0D0D;
+      background: rgba(13,13,13,0.06);
+      border: 1px solid rgba(13,13,13,0.15);
+      padding: 6px 14px;
+    }
+
+    /* ── Learnings ── */
+    .learnings-list {
+      display: flex;
+      flex-direction: column;
+      gap: 26px;
+    }
+
+    .learning-item {
+      display: grid;
+      grid-template-columns: 40px 1fr;
+      gap: 0 16px;
+      align-items: start;
+    }
+
+    .l-num {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 28px;
+      font-weight: 800;
+      color: rgba(13,13,13,0.08);
+      line-height: 1.1;
+      text-align: right;
+    }
+
+    .l-body { padding-top: 4px; }
+
+    .l-text {
+      font-size: 14.5px;
+      line-height: 1.75;
+      color: #0D0D0D;
+      opacity: 0.7;
+    }
+
+    /* ── Improvements ── */
+    .improvements-list {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .improvement-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .imp-bullet {
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: #D92B2B;
+      flex-shrink: 0;
+      margin-top: 9px;
+    }
+
+    .imp-text {
+      font-size: 14px;
+      line-height: 1.7;
+      color: #0D0D0D;
+      opacity: 0.72;
+    }
+
+    /* ── Mental Note ── */
+    .mental-note {
+      background: rgba(217,43,43,0.05);
+      border-left: 3px solid #D92B2B;
+      padding: 18px 22px;
+    }
+    .mental-note-label {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 8.5px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #D92B2B;
+      margin-bottom: 8px;
+    }
+    .mental-note-text {
+      font-size: 14.5px;
+      line-height: 1.75;
+      color: #0D0D0D;
+      opacity: 0.75;
+    }
+
+    /* ── Gratitude ── */
+    .gratitude-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .g-name {
+      font-size: 13px;
+      font-weight: 500;
+      color: #0D0D0D;
+      background: rgba(13,13,13,0.06);
+      border: 1px solid rgba(13,13,13,0.15);
+      padding: 5px 12px;
+    }
+
+    /* ── Footer ── */
+    .page-footer {
+      border: 2px solid #0D0D0D;
+      padding: 16px 52px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .footer-note {
+      font-size: 11px;
+      color: rgba(13,13,13,0.35);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    .next-link {
+      text-decoration: none;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #0D0D0D;
+      opacity: 0.4;
+      transition: opacity 0.2s, color 0.2s;
+    }
+    .next-link:hover { opacity: 1; color: #D92B2B; }
+
+    @media (max-width: 580px) {
+      body { padding: 32px 16px 80px; }
+      .hero { padding: 32px 28px 28px; }
+      .section { padding: 28px 24px; }
+      .page-footer { padding: 14px 24px; }
+      .learning-item { grid-template-columns: 30px 1fr; gap: 0 10px; }
+      .l-num { font-size: 20px; }
+      .version-row { grid-template-columns: 44px 1fr auto; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+
+    <!-- Header -->
+    <div class="page-header">
+      <a href="projects.html" class="back-btn">← Projects</a>
+      <span class="header-tag">Project 06</span>
+    </div>
+
+    <!-- Hero -->
+    <div class="hero">
+      <p class="project-label">Built</p>
+      <h1 class="project-title">PicNEat</h1>
+      <div class="status-row">
+        <div class="status-pill">
+          <div class="dot-built"></div>
+          Built · 6 Versions
+        </div>
+        <div class="hero-tags">
+          <span class="hero-tag">Figma</span>
+          <span class="hero-tag">App Dev</span>
+          <span class="hero-tag">Claude Code</span>
+          <span class="hero-tag">Recruiting</span>
+          <span class="hero-tag">Flutter</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Body -->
+    <div class="page-body">
+
+      <!-- Goal -->
+      <div class="section">
+        <p class="section-label">The Goal</p>
+        <p class="body-text">Build my first app — a calorie tracker built specifically for Dining Courts. Point your phone at food, get nutrition data back, and make healthy eating at Purdue feel less like homework.</p>
+      </div>
+
+      <!-- Process / Versions -->
+      <div class="section">
+        <p class="section-label">The Journey — 6 Versions</p>
+        <p class="version-intro">Started as a terrible little website-looking thing in Summer 2025. Became a cool-looking mockup I'd actually want to use every day. Tried a bunch of AI tools after miserably hating the process of learning Flutter — it worked out well.</p>
+
+        <div class="versions">
+
+          <a href="https://github.com/mahekparvez/v6picneat" target="_blank" rel="noopener" class="version-row latest">
+            <span class="v-num">V6 <span class="v-badge">Latest</span></span>
+            <div class="v-body">
+              <span class="v-tool">Claude Desktop Version</span>
+              <span class="v-label">github.com/mahekparvez/v6picneat</span>
+            </div>
+            <span class="v-arrow">↗</span>
+          </a>
+
+          <a href="https://github.com/mahekparvez/v5picneat" target="_blank" rel="noopener" class="version-row">
+            <span class="v-num">V5</span>
+            <div class="v-body">
+              <span class="v-tool">Claude Version</span>
+              <span class="v-label">github.com/mahekparvez/v5picneat</span>
+            </div>
+            <span class="v-arrow">↗</span>
+          </a>
+
+          <a href="https://github.com/mahekparvez/v4picneat" target="_blank" rel="noopener" class="version-row">
+            <span class="v-num">V4</span>
+            <div class="v-body">
+              <span class="v-tool">Claude Version</span>
+              <span class="v-label">github.com/mahekparvez/v4picneat</span>
+            </div>
+            <span class="v-arrow">↗</span>
+          </a>
+
+          <a href="https://github.com/mahekparvez/v3picneat" target="_blank" rel="noopener" class="version-row">
+            <span class="v-num">V3</span>
+            <div class="v-body">
+              <span class="v-tool">Image Datasets</span>
+              <span class="v-label">github.com/mahekparvez/v3picneat</span>
+            </div>
+            <span class="v-arrow">↗</span>
+          </a>
+
+          <a href="https://github.com/mahekparvez/v2picneat" target="_blank" rel="noopener" class="version-row">
+            <span class="v-num">V2</span>
+            <div class="v-body">
+              <span class="v-tool">Lovable Version</span>
+              <span class="v-label">github.com/mahekparvez/v2picneat</span>
+            </div>
+            <span class="v-arrow">↗</span>
+          </a>
+
+          <a href="https://github.com/mahekparvez/v1picneat" target="_blank" rel="noopener" class="version-row">
+            <span class="v-num">V1</span>
+            <div class="v-body">
+              <span class="v-tool">Flutter Version</span>
+              <span class="v-label">github.com/mahekparvez/v1picneat</span>
+            </div>
+            <span class="v-arrow">↗</span>
+          </a>
+
+        </div>
+      </div>
+
+      <!-- References -->
+      <div class="section">
+        <p class="section-label">References</p>
+        <div class="refs-list">
+
+          <a href="https://lorenz.ecn.purdue.edu/~vfn/" target="_blank" rel="noopener" class="ref-item">
+            <span class="ref-bullet">↗</span>
+            <div class="ref-body-text">
+              <p class="ref-title">Purdue Food Image Dataset</p>
+              <p class="ref-url">lorenz.ecn.purdue.edu/~vfn — Image dataset for food recognition</p>
+            </div>
+          </a>
+
+          <a href="https://fdc.nal.usda.gov/api-guide" target="_blank" rel="noopener" class="ref-item">
+            <span class="ref-bullet">↗</span>
+            <div class="ref-body-text">
+              <p class="ref-title">USDA Food Data Central API</p>
+              <p class="ref-url">fdc.nal.usda.gov — Calorie values for recognized foods</p>
+            </div>
+          </a>
+
+          <a href="https://www.youtube.com/watch?v=3kaGC_DrUnw" target="_blank" rel="noopener" class="ref-item">
+            <span class="ref-bullet">↗</span>
+            <div class="ref-body-text">
+              <p class="ref-title">Flutter Tutorials</p>
+              <p class="ref-url">youtube.com — Getting started with Flutter</p>
+            </div>
+          </a>
+
+          <a href="https://docs.flutter.dev/learn/pathway" target="_blank" rel="noopener" class="ref-item">
+            <span class="ref-bullet">↗</span>
+            <div class="ref-body-text">
+              <p class="ref-title">Dart Learning Pathway</p>
+              <p class="ref-url">docs.flutter.dev — Official Flutter / Dart docs</p>
+            </div>
+          </a>
+
+          <a href="https://www.youtube.com/watch?v=Du2lkZ_cux8" target="_blank" rel="noopener" class="ref-item">
+            <span class="ref-bullet">↗</span>
+            <div class="ref-body-text">
+              <p class="ref-title">How to Make App UI Addictive</p>
+              <p class="ref-url">youtube.com — Design psychology for mobile apps</p>
+            </div>
+          </a>
+
+        </div>
+      </div>
+
+      <!-- Skills -->
+      <div class="section">
+        <p class="section-label">Skillsets Formed</p>
+        <div class="skills-grid">
+          <span class="skill-chip">Figma</span>
+          <span class="skill-chip">UI/UX Design</span>
+          <span class="skill-chip">Replit</span>
+          <span class="skill-chip">Lovable</span>
+          <span class="skill-chip">Claude Code</span>
+          <span class="skill-chip">PRD Writing</span>
+          <span class="skill-chip">Hand-Drawing Wireframes</span>
+          <span class="skill-chip">Flutter (basics)</span>
+          <span class="skill-chip">Dart (basics)</span>
+        </div>
+      </div>
+
+      <!-- Learnings -->
+      <div class="section">
+        <p class="section-label">Top 3 Learnings</p>
+        <div class="learnings-list">
+
+          <div class="learning-item">
+            <div class="l-num">01</div>
+            <div class="l-body">
+              <p class="l-text">Making beautiful UI taught me how to actually build an aesthetic sense — not just copy what looks good, but understand why it works.</p>
+            </div>
+          </div>
+
+          <div class="learning-item">
+            <div class="l-num">02</div>
+            <div class="l-body">
+              <p class="l-text">I don't love the process of coding a frontend, backend, or handling a database. So no fullstack for me — at least not for now.</p>
+            </div>
+          </div>
+
+          <div class="learning-item">
+            <div class="l-num">03</div>
+            <div class="l-body">
+              <p class="l-text">Built my first PRD — wrote it on my iPad. Getting everything out of my head and onto paper before touching code makes everything better.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Mental Note -->
+      <div class="section">
+        <p class="section-label">Mental Note</p>
+        <div class="mental-note">
+          <p class="mental-note-label">⚡ Personal reminder</p>
+          <p class="mental-note-text">Instead of trying to build an app, build something that doesn't involve a backend — backends are messy for non-app-builders. This will likely change in the era of vibe-coding, so keep trying to get better at it with AI.</p>
+        </div>
+      </div>
+
+      <!-- Gratitude -->
+      <div class="section">
+        <p class="section-label">Grateful For</p>
+        <p class="body-text" style="font-size: 13px; margin-bottom: 16px;">People who gave feedback, time, or encouragement during the build.</p>
+        <div class="gratitude-list">
+          <span class="g-name">Dr. Fengquing Maggie Zhu</span>
+          <span class="g-name">Bruce Coburn</span>
+          <span class="g-name">Amanda (Mandy) Kogut</span>
+          <span class="g-name">Guatham Vinod</span>
+          <span class="g-name">Anna Citrus</span>
+          <span class="g-name">Neha Mahesh</span>
+          <span class="g-name">Nathaniel Kemme Nash</span>
+          <span class="g-name">Rishit Sharma</span>
+          <span class="g-name">Jeffrey Tseng</span>
+        </div>
+      </div>
+
+      <!-- Improvements -->
+      <div class="section">
+        <p class="section-label">Potential Improvements</p>
+        <div class="improvements-list">
+
+          <div class="improvement-item">
+            <div class="imp-bullet"></div>
+            <p class="imp-text">Launch on the App Store. $100 was just too much to spend solo — but it should happen eventually.</p>
+          </div>
+
+          <div class="improvement-item">
+            <div class="imp-bullet"></div>
+            <p class="imp-text">Got feedback from 3 users. Should have gotten more, listened better, and done it faster. Don't fall in love with your product — fall in love with the impact it has on others.</p>
+          </div>
+
+          <div class="improvement-item">
+            <div class="imp-bullet"></div>
+            <p class="imp-text">Make the image detection model sharper. Calorie mapping was working well — the recognition is what needs love.</p>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Footer -->
+    <div class="page-footer">
+      <span class="footer-note">mahek's workshop</span>
+      <a href="projects.html" class="next-link">All Projects →</a>
+    </div>
+
+  </div>
+</body>
+</html>
