@@ -141,7 +141,31 @@
       gap: 8px;
       transition: background 0.15s;
       cursor: default;
+      position: relative;
     }
+
+    .p-arrow {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      font-size: 15px;
+      color: #D92B2B;
+      opacity: 0;
+      transition: opacity 0.15s;
+    }
+    .passion-card:hover .p-arrow { opacity: 1; color: #F0EDE6; }
+
+    .p-stats {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 8.5px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #0D0D0D;
+      margin-top: 2px;
+      transition: color 0.15s;
+    }
+    .passion-card:hover .p-stats { color: rgba(240,237,230,0.6); }
 
     .passion-card:hover { background: #0D0D0D; }
     .passion-card:hover .p-name,
@@ -277,11 +301,12 @@
           <p class="p-desc">Circuits that actually do things in the physical world. Software is fast, but Hardware is cool.</p>
         </div>
 
-        <a href="https://www.instagram.com/mahekparvez1/" target="_blank" rel="noopener" class="passion-card" style="text-decoration:none;">
+        <a href="https://www.instagram.com/mahekparvez1/" target="_blank" rel="noopener" class="passion-card" style="text-decoration:none;cursor:pointer;">
+          <span class="p-arrow">↗</span>
           <span class="p-num">02</span>
-          <span class="p-name">Content Creation ↗</span>
+          <span class="p-name">Content Creation</span>
           <p class="p-desc">An unfair advantage: ability to enjoy speaking in front of a camera and making it mean something to someone &lt;3</p>
-          <span style="font-family:'Orbitron',sans-serif;font-size:8px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:rgba(13,13,13,0.35);margin-top:4px;">30K followers on Instagram</span>
+          <span class="p-stats">23K Instagram &nbsp;·&nbsp; 7K LinkedIn</span>
         </a>
 
         <div class="passion-card">
