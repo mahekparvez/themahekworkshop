@@ -204,6 +204,26 @@
     .meet-item span { line-height: 1.3; }
     .meet-item.met span { opacity: 0.5; }
 
+    /* Hover tooltip for admire note */
+    .meet-item { position: relative; }
+    .meet-item[data-admire]:hover::after {
+      content: attr(data-admire);
+      position: absolute;
+      left: 24px;
+      top: calc(100% + 2px);
+      background: #0D0D0D;
+      color: #F0EDE6;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 8px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 5px 9px;
+      white-space: nowrap;
+      z-index: 10;
+      pointer-events: none;
+    }
+
     /* ── Quotes ── */
     .quote-block {
       border-left: 3px solid #D92B2B;
@@ -276,20 +296,16 @@
 
       <p class="section-label">People I'd like to meet</p>
       <div class="meet-grid">
-        <div class="meet-item"><div class="check"></div><span>Rafael Conde</span></div>
-        <div class="meet-item"><div class="check"></div><span>Ranveer Allahbadia</span></div>
-        <div class="meet-item"><div class="check"></div><span>Paul Graham</span></div>
-        <div class="meet-item"><div class="check"></div><span>Kane Kallaway</span></div>
-        <div class="meet-item"><div class="check"></div><span>Anson Yu</span></div>
-        <div class="meet-item"><div class="check"></div><span>Jeffrey Housenbold</span></div>
-        <div class="meet-item"><div class="check"></div><span>Tanmay Bhat</span></div>
-        <div class="meet-item"><div class="check"></div><span>Jessica Livingston</span></div>
-        <div class="meet-item"><div class="check"></div><span>Dylan Field</span></div>
-        <div class="meet-item"><div class="check"></div><span>Sarah Drasner</span></div>
-        <div class="meet-item"><div class="check"></div><span>Frank Chimero</span></div>
-        <div class="meet-item"><div class="check"></div><span>Ishan Sharma</span></div>
-        <div class="meet-item"><div class="check"></div><span>Marc Edwards</span></div>
-        <div class="meet-item"><div class="check"></div><span>Shaurya Sinha</span></div>
+        <div class="meet-item" data-admire="Wow Podcasts"><div class="check"></div><span><a href="https://www.youtube.com/@ranveerallahbadia" class="person-name" target="_blank" rel="noopener">Ranveer Allahbadia</a></span></div>
+        <div class="meet-item" data-admire="Wow Essays"><div class="check"></div><span><a href="https://paulgraham.com/" class="person-name" target="_blank" rel="noopener">Paul Graham</a></span></div>
+        <div class="meet-item" data-admire="Wow Content"><div class="check"></div><span><a href="https://www.youtube.com/@kallawaymarketing" class="person-name" target="_blank" rel="noopener">Kane Kallaway</a></span></div>
+        <div class="meet-item" data-admire="Loves Bees! Wow Website"><div class="check"></div><span><a href="https://ansonyu.me/advice" class="person-name" target="_blank" rel="noopener">Anson Yu</a></span></div>
+        <div class="meet-item" data-admire="Wow Marketer"><div class="check"></div><span><a href="https://www.youtube.com/watch?v=B_Uh5V4xD4k" class="person-name" target="_blank" rel="noopener">Tanmay Bhat</a></span></div>
+        <div class="meet-item" data-admire="Wow Book/Instincts"><div class="check"></div><span><a href="https://www.amazon.com/Founders-Work-Stories-Startups-Early/dp/1430210788" class="person-name" target="_blank" rel="noopener">Jessica Livingston</a></span></div>
+        <div class="meet-item" data-admire="Wow Entries"><div class="check"></div><span><a href="https://frankchimero.com/" class="person-name" target="_blank" rel="noopener">Frank Chimero</a></span></div>
+        <div class="meet-item" data-admire="Wow Storytelling"><div class="check"></div><span><a href="https://www.instagram.com/ddennishan/" class="person-name" target="_blank" rel="noopener">Dennis Han</a></span></div>
+        <div class="meet-item" data-admire="Wow AI Info"><div class="check"></div><span><a href="https://www.youtube.com/@IshanSharma7390" class="person-name" target="_blank" rel="noopener">Ishan Sharma</a></span></div>
+        <div class="meet-item"><div class="check"></div><span><a href="https://www.youtube.com/@ShauryaSinha" class="person-name" target="_blank" rel="noopener">Shaurya Sinha</a></span></div>
       </div>
 
       <p class="section-label">Things people said that stuck with me</p>
