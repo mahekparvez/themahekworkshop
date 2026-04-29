@@ -886,7 +886,7 @@
       }
 
       document.addEventListener('mousemove', function(e){ moveDrag(e.clientX, e.clientY); });
-      document.addEventListener('touchmove', function(e){ moveDrag(e.touches[0].clientX, e.touches[0].clientY); e.preventDefault(); }, {passive:false});
+      document.addEventListener('touchmove', function(e){ if(!dragState) return; moveDrag(e.touches[0].clientX, e.touches[0].clientY); e.preventDefault(); }, {passive:false});
       document.addEventListener('mouseup', endDrag);
       document.addEventListener('touchend', endDrag);
 
