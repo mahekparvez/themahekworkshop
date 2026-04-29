@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Darner the Dragonfly — Mahek Parvez</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&family=Orbitron:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      min-height: 100vh;
+      background: #F0EDE6;
+      font-family: 'Fredoka', sans-serif;
+      padding: 56px 20px 100px;
+    }
+
+    .wrap {
+      max-width: 760px;
+      margin: 0 auto;
+      animation: rise 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(-8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── Header ── */
+    .page-header {
+      border: 2px solid #0D0D0D;
+      border-bottom: none;
+      padding: 14px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .back-btn {
+      text-decoration: none;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #0D0D0D;
+      opacity: 0.4;
+      transition: opacity 0.2s, color 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .back-btn:hover { opacity: 1; color: #D92B2B; }
+
+    .header-tag {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(13,13,13,0.3);
+    }
+
+    /* ── Hero ── */
+    .hero {
+      border: 2px solid #0D0D0D;
+      border-bottom: none;
+      padding: 44px 52px 40px;
+      background: #0D0D0D;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: 'DTD';
+      position: absolute;
+      right: -10px;
+      bottom: -28px;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 150px;
+      font-weight: 800;
+      color: rgba(255,255,255,0.04);
+      letter-spacing: -4px;
+      line-height: 1;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .project-label {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #D92B2B;
+      margin-bottom: 10px;
+    }
+
+    .project-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: clamp(36px, 9vw, 76px);
+      font-weight: 800;
+      color: #F0EDE6;
+      letter-spacing: -2px;
+      line-height: 0.92;
+      margin-bottom: 22px;
+    }
+
+    .status-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .status-pill {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(240,237,230,0.45);
+    }
+
+    .dot-wip { width: 6px; height: 6px; border-radius: 50%; background: #D92B2B; flex-shrink: 0; }
+
+    .hero-tags { display: flex; flex-wrap: wrap; gap: 5px; }
+    .hero-tag {
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border: 1px solid rgba(240,237,230,0.2);
+      color: rgba(240,237,230,0.55);
+    }
+
+    /* ── Body ── */
+    .page-body {
+      border: 2px solid #0D0D0D;
+      border-bottom: none;
+      background: #F0EDE6;
+    }
+
+    .section {
+      padding: 36px 52px;
+      border-bottom: 1.5px solid rgba(13,13,13,0.1);
+    }
+    .section:last-child { border-bottom: none; }
+
+    .section-label {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #D92B2B;
+      margin-bottom: 14px;
+    }
+
+    .body-text {
+      font-size: 15px;
+      line-height: 1.75;
+      color: #0D0D0D;
+      opacity: 0.78;
+    }
+
+    /* ── Process steps ── */
+    .process-steps {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .process-step {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+    }
+
+    .step-bullet {
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: #0D0D0D;
+      opacity: 0.3;
+      flex-shrink: 0;
+      margin-top: 9px;
+    }
+
+    .step-text {
+      font-size: 14.5px;
+      line-height: 1.7;
+      color: #0D0D0D;
+      opacity: 0.72;
+    }
+
+    .step-text strong {
+      font-weight: 600;
+      color: #0D0D0D;
+      opacity: 1;
+    }
+
+    /* ── Culprit callout ── */
+    .culprit-box {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      border: 2px solid #D92B2B;
+      padding: 18px 22px;
+      margin-top: 20px;
+      background: rgba(217,43,43,0.04);
+    }
+
+    .culprit-icon {
+      font-size: 28px;
+      flex-shrink: 0;
+    }
+
+    .culprit-body {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .culprit-label {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 8px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #D92B2B;
+    }
+
+    .culprit-text {
+      font-size: 14px;
+      line-height: 1.6;
+      color: #0D0D0D;
+      opacity: 0.72;
+    }
+
+    /* ── Reference cards ── */
+    .ref-card {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      border: 2px solid #0D0D0D;
+      background: #F0EDE6;
+      transition: background 0.13s;
+      margin-bottom: 10px;
+    }
+    .ref-card:last-child { margin-bottom: 0; }
+    .ref-card:hover { background: #0D0D0D; }
+
+    .ref-accent {
+      width: 5px;
+      align-self: stretch;
+      flex-shrink: 0;
+    }
+    .ref-accent.drone  { background: #2BB560; }
+    .ref-accent.video  { background: #D92B2B; }
+
+    .ref-body {
+      padding: 14px 18px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .ref-source {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 8px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(13,13,13,0.4);
+      transition: color 0.13s;
+    }
+    .ref-card:hover .ref-source { color: rgba(240,237,230,0.45); }
+
+    .ref-name {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      color: #0D0D0D;
+      line-height: 1.35;
+      transition: color 0.13s;
+    }
+    .ref-card:hover .ref-name { color: #F0EDE6; }
+
+    .ref-sub {
+      font-size: 11.5px;
+      color: rgba(13,13,13,0.45);
+      line-height: 1.4;
+      transition: color 0.13s;
+    }
+    .ref-card:hover .ref-sub { color: rgba(240,237,230,0.48); }
+
+    .ref-arrow {
+      font-size: 15px;
+      padding: 14px 16px 14px 0;
+      flex-shrink: 0;
+      color: rgba(13,13,13,0.25);
+      transition: color 0.13s;
+    }
+    .ref-card:hover .ref-arrow { color: rgba(240,237,230,0.6); }
+
+    /* ── Skills ── */
+    .skills-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+    }
+    .skill-chip {
+      font-size: 12px;
+      font-weight: 500;
+      color: #0D0D0D;
+      background: rgba(13,13,13,0.06);
+      border: 1px solid rgba(13,13,13,0.15);
+      padding: 6px 14px;
+    }
+
+    /* ── Learnings ── */
+    .learnings-list {
+      display: flex;
+      flex-direction: column;
+      gap: 26px;
+    }
+
+    .learning-item {
+      display: grid;
+      grid-template-columns: 40px 1fr;
+      gap: 0 16px;
+      align-items: start;
+    }
+
+    .l-num {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 28px;
+      font-weight: 800;
+      color: rgba(13,13,13,0.08);
+      line-height: 1.1;
+      text-align: right;
+    }
+
+    .l-body { padding-top: 4px; }
+
+    .l-text {
+      font-size: 14.5px;
+      line-height: 1.75;
+      color: #0D0D0D;
+      opacity: 0.7;
+    }
+
+    /* ── Future improvements ── */
+    .improvement-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .imp-bullet {
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: #D92B2B;
+      flex-shrink: 0;
+      margin-top: 9px;
+    }
+
+    .imp-text {
+      font-size: 14px;
+      line-height: 1.7;
+      color: #0D0D0D;
+      opacity: 0.72;
+    }
+
+    /* ── Mental Note ── */
+    .mental-note {
+      background: rgba(217,43,43,0.05);
+      border-left: 3px solid #D92B2B;
+      padding: 18px 22px;
+    }
+    .mental-note-label {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 8.5px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #D92B2B;
+      margin-bottom: 8px;
+    }
+    .mental-note-text {
+      font-size: 14.5px;
+      line-height: 1.75;
+      color: #0D0D0D;
+      opacity: 0.75;
+    }
+
+    /* ── Gratitude ── */
+    .gratitude-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .g-name {
+      font-size: 13px;
+      font-weight: 500;
+      color: #0D0D0D;
+      background: rgba(13,13,13,0.06);
+      border: 1px solid rgba(13,13,13,0.15);
+      padding: 5px 12px;
+    }
+
+    /* ── Footer ── */
+    .page-footer {
+      border: 2px solid #0D0D0D;
+      padding: 16px 52px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .footer-note {
+      font-size: 11px;
+      color: rgba(13,13,13,0.35);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    .next-link {
+      text-decoration: none;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #0D0D0D;
+      opacity: 0.4;
+      transition: opacity 0.2s, color 0.2s;
+    }
+    .next-link:hover { opacity: 1; color: #D92B2B; }
+
+    @media (max-width: 580px) {
+      body { padding: 32px 16px 80px; }
+      .hero { padding: 32px 28px 28px; }
+      .section { padding: 28px 24px; }
+      .page-footer { padding: 14px 24px; }
+      .learning-item { grid-template-columns: 30px 1fr; gap: 0 10px; }
+      .l-num { font-size: 20px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+
+    <!-- Header -->
+    <div class="page-header">
+      <a href="projects.html" class="back-btn">← Projects</a>
+      <span class="header-tag">In Progress</span>
+    </div>
+
+    <!-- Hero -->
+    <div class="hero">
+      <p class="project-label">In Progress</p>
+      <h1 class="project-title">Darner the<br>Dragonfly</h1>
+      <div class="status-row">
+        <div class="status-pill">
+          <div class="dot-wip"></div>
+          In Progress
+        </div>
+        <div class="hero-tags">
+          <span class="hero-tag">Hardware</span>
+          <span class="hero-tag">Flight Control</span>
+          <span class="hero-tag">PCB</span>
+          <span class="hero-tag">Electrical Debugging</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Body -->
+    <div class="page-body">
+
+      <!-- Goal -->
+      <div class="section">
+        <p class="section-label">The Goal</p>
+        <p class="body-text">Fix a palm-sized broken drone from a former professor's lab remains. Get it flying. If it's going to fly, it should look cute too.</p>
+      </div>
+
+      <!-- Process -->
+      <div class="section">
+        <p class="section-label">Process</p>
+        <div class="process-steps">
+          <div class="process-step">
+            <div class="step-bullet"></div>
+            <p class="step-text">Manually ran <strong>continuity tests</strong> for each component in both the drone and the controller</p>
+          </div>
+          <div class="process-step">
+            <div class="step-bullet"></div>
+            <p class="step-text">Researched each component individually and <strong>educated-guessed component values</strong></p>
+          </div>
+          <div class="process-step">
+            <div class="step-bullet"></div>
+            <p class="step-text"><strong>Re-did the circuiting</strong> for the controller entirely</p>
+          </div>
+        </div>
+        <div class="culprit-box">
+          <span class="culprit-icon">⚡</span>
+          <div class="culprit-body">
+            <p class="culprit-label">Root Cause Found</p>
+            <p class="culprit-text">One fused capacitor. That's it. That's what grounded the whole thing.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- References -->
+      <div class="section">
+        <p class="section-label">References</p>
+
+        <a href="https://www.walmart.com/ip/Sky-Viper-Dash-Nano-Drone/861294782?wl13=2339&selectedSellerId=0&wmlspartner=wlpa"
+           target="_blank" rel="noopener" class="ref-card">
+          <div class="ref-accent drone"></div>
+          <div class="ref-body">
+            <span class="ref-source">Walmart — The Drone</span>
+            <span class="ref-name">Sky Viper Dash Nano Drone</span>
+            <span class="ref-sub">Same model, except Darner had a round frame. Might buy again to rebuild the controller I took apart and couldn't reassemble.</span>
+          </div>
+          <span class="ref-arrow">↗</span>
+        </a>
+
+        <a href="https://www.youtube.com/watch?v=4nRgEmdwtJo"
+           target="_blank" rel="noopener" class="ref-card">
+          <div class="ref-accent video"></div>
+          <div class="ref-body">
+            <span class="ref-source">YouTube</span>
+            <span class="ref-name">Drone Repair Reference #1</span>
+            <span class="ref-sub">youtube.com/watch?v=4nRgEmdwtJo</span>
+          </div>
+          <span class="ref-arrow">↗</span>
+        </a>
+
+        <a href="https://www.youtube.com/watch?v=E4sJBKuxH9Y"
+           target="_blank" rel="noopener" class="ref-card">
+          <div class="ref-accent video"></div>
+          <div class="ref-body">
+            <span class="ref-source">YouTube</span>
+            <span class="ref-name">Drone Repair Reference #2</span>
+            <span class="ref-sub">youtube.com/watch?v=E4sJBKuxH9Y</span>
+          </div>
+          <span class="ref-arrow">↗</span>
+        </a>
+
+      </div>
+
+      <!-- Skills -->
+      <div class="section">
+        <p class="section-label">Skillsets Formed</p>
+        <div class="skills-grid">
+          <span class="skill-chip">Electrical Debugging</span>
+          <span class="skill-chip">Continuity Testing</span>
+          <span class="skill-chip">Component Research</span>
+          <span class="skill-chip">Circuit Repair</span>
+        </div>
+      </div>
+
+      <!-- Learnings -->
+      <div class="section">
+        <p class="section-label">Learnings So Far</p>
+        <div class="learnings-list">
+
+          <div class="learning-item">
+            <div class="l-num">01</div>
+            <div class="l-body">
+              <p class="l-text">One power supply can change everything. A single fused capacitor took down the whole drone — isolate your power path first.</p>
+            </div>
+          </div>
+
+          <div class="learning-item">
+            <div class="l-num">02</div>
+            <div class="l-body">
+              <p class="l-text">Testing each component individually is the only real way to isolate an error. You don't need fancy equipment — patience and a multimeter goes a long way.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Mental Note -->
+      <div class="section">
+        <p class="section-label">Mental Note</p>
+        <div class="mental-note">
+          <p class="mental-note-label">⚡ Personal reminder</p>
+          <p class="mental-note-text">Build what you would 200% want to use. Something that you have an active use case for.</p>
+        </div>
+      </div>
+
+      <!-- Gratitude -->
+      <div class="section">
+        <p class="section-label">Grateful For</p>
+        <div class="gratitude-list">
+          <span class="g-name">TAs at the Bechtel Electronics Lab</span>
+        </div>
+      </div>
+
+      <!-- Future Improvements -->
+      <div class="section">
+        <p class="section-label">Future Improvements</p>
+        <div class="improvement-item">
+          <div class="imp-bullet"></div>
+          <p class="imp-text">Build my own drone from scratch and add cameras to it.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Footer -->
+    <div class="page-footer">
+      <span class="footer-note">mahek's workshop</span>
+      <a href="projects.html" class="next-link">All Projects →</a>
+    </div>
+
+  </div>
+</body>
+</html>
