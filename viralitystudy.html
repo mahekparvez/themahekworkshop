@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Virality Study — Mahek Parvez</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&family=Orbitron:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      min-height: 100vh;
+      background: #F0EDE6;
+      font-family: 'Fredoka', sans-serif;
+      padding: 56px 20px 100px;
+    }
+
+    .wrap {
+      max-width: 760px;
+      margin: 0 auto;
+      animation: rise 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(-8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── Header ── */
+    .page-header {
+      border: 2px solid #0D0D0D;
+      border-bottom: none;
+      padding: 14px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .back-btn {
+      text-decoration: none;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #0D0D0D;
+      opacity: 0.4;
+      transition: opacity 0.2s, color 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .back-btn:hover { opacity: 1; color: #D92B2B; }
+
+    .header-tag {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(13,13,13,0.3);
+    }
+
+    /* ── Hero ── */
+    .hero {
+      border: 2px solid #0D0D0D;
+      border-bottom: none;
+      padding: 44px 52px 40px;
+      background: #0D0D0D;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: 'TVS';
+      position: absolute;
+      right: -10px;
+      bottom: -28px;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 148px;
+      font-weight: 800;
+      color: rgba(255,255,255,0.04);
+      letter-spacing: -4px;
+      line-height: 1;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .project-label {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #D92B2B;
+      margin-bottom: 10px;
+    }
+
+    .project-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: clamp(28px, 7vw, 64px);
+      font-weight: 800;
+      color: #F0EDE6;
+      letter-spacing: -2px;
+      line-height: 0.92;
+      margin-bottom: 22px;
+    }
+
+    .status-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .status-pill {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(240,237,230,0.45);
+    }
+
+    .dot-wip { width: 6px; height: 6px; border-radius: 50%; background: #D92B2B; flex-shrink: 0; }
+
+    .hero-tags { display: flex; flex-wrap: wrap; gap: 5px; }
+    .hero-tag {
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border: 1px solid rgba(240,237,230,0.2);
+      color: rgba(240,237,230,0.55);
+    }
+
+    /* ── Body ── */
+    .page-body {
+      border: 2px solid #0D0D0D;
+      border-bottom: none;
+      background: #F0EDE6;
+    }
+
+    .section {
+      padding: 36px 52px;
+      border-bottom: 1.5px solid rgba(13,13,13,0.1);
+    }
+    .section:last-child { border-bottom: none; }
+
+    .section-label {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #D92B2B;
+      margin-bottom: 14px;
+    }
+
+    .body-text {
+      font-size: 15px;
+      line-height: 1.75;
+      color: #0D0D0D;
+      opacity: 0.78;
+    }
+
+    /* ── WIP callout ── */
+    .wip-box {
+      border: 1.5px solid rgba(13,13,13,0.15);
+      border-left: 4px solid #D92B2B;
+      padding: 16px 20px;
+      background: rgba(217,43,43,0.04);
+    }
+    .wip-label {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 8px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #D92B2B;
+      margin-bottom: 6px;
+    }
+    .wip-text {
+      font-size: 13.5px;
+      line-height: 1.65;
+      color: #0D0D0D;
+      opacity: 0.68;
+    }
+
+    /* ── Account badge ── */
+    .account-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      border: 2px solid #0D0D0D;
+      padding: 12px 18px;
+      background: #0D0D0D;
+      text-decoration: none;
+      transition: background 0.15s;
+      margin-top: 14px;
+    }
+    .account-badge:hover { background: #D92B2B; border-color: #D92B2B; }
+
+    .account-at {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      color: #F0EDE6;
+    }
+
+    .account-sub {
+      font-size: 11px;
+      color: rgba(240,237,230,0.5);
+    }
+
+    /* ── Skills ── */
+    .skills-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+    }
+    .skill-chip {
+      font-size: 12px;
+      font-weight: 500;
+      color: #0D0D0D;
+      background: rgba(13,13,13,0.06);
+      border: 1px solid rgba(13,13,13,0.15);
+      padding: 6px 14px;
+    }
+
+    /* ── Footer ── */
+    .page-footer {
+      border: 2px solid #0D0D0D;
+      padding: 16px 52px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .footer-note {
+      font-size: 11px;
+      color: rgba(13,13,13,0.35);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    .next-link {
+      text-decoration: none;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #0D0D0D;
+      opacity: 0.4;
+      transition: opacity 0.2s, color 0.2s;
+    }
+    .next-link:hover { opacity: 1; color: #D92B2B; }
+
+    @media (max-width: 580px) {
+      body { padding: 32px 16px 80px; }
+      .hero { padding: 32px 28px 28px; }
+      .section { padding: 28px 24px; }
+      .page-footer { padding: 14px 24px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+
+    <!-- Header -->
+    <div class="page-header">
+      <a href="projects.html" class="back-btn">← Projects</a>
+      <span class="header-tag">In Progress</span>
+    </div>
+
+    <!-- Hero -->
+    <div class="hero">
+      <p class="project-label">In Progress</p>
+      <h1 class="project-title">The Virality<br>Study</h1>
+      <div class="status-row">
+        <div class="status-pill">
+          <div class="dot-wip"></div>
+          In Progress
+        </div>
+        <div class="hero-tags">
+          <span class="hero-tag">Data Science</span>
+          <span class="hero-tag">ML</span>
+          <span class="hero-tag">Pattern Recognition</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Body -->
+    <div class="page-body">
+
+      <!-- Goal -->
+      <div class="section">
+        <p class="section-label">The Goal</p>
+        <p class="body-text">Study social media patterns for @mahekparvez1 through actual research — not guesswork. Use data science and ML to understand what drives reach, retention, and real engagement.</p>
+        <a href="https://www.instagram.com/mahekparvez1" target="_blank" rel="noopener" class="account-badge">
+          <span class="account-at">@mahekparvez1</span>
+          <span class="account-sub">The subject of the study</span>
+        </a>
+      </div>
+
+      <!-- Status -->
+      <div class="section">
+        <p class="section-label">Status</p>
+        <div class="wip-box">
+          <p class="wip-label">Active Research</p>
+          <p class="wip-text">Collecting data, running pattern analysis, and building a framework for what actually moves the needle on social media — backed by numbers, not vibes.</p>
+        </div>
+      </div>
+
+      <!-- Skills -->
+      <div class="section">
+        <p class="section-label">Skillsets</p>
+        <div class="skills-grid">
+          <span class="skill-chip">Data Science</span>
+          <span class="skill-chip">Machine Learning</span>
+          <span class="skill-chip">Pattern Recognition</span>
+          <span class="skill-chip">Social Media Analytics</span>
+          <span class="skill-chip">Research Design</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Footer -->
+    <div class="page-footer">
+      <span class="footer-note">mahek's workshop</span>
+      <a href="projects.html" class="next-link">All Projects →</a>
+    </div>
+
+  </div>
+</body>
+</html>
