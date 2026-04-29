@@ -352,6 +352,7 @@
     }
 
     /* Floating chips */
+    /* ── Boat chip ── */
     .idea-chip {
       position: absolute;
       display: flex;
@@ -360,43 +361,30 @@
       gap: 3px;
       cursor: pointer;
       pointer-events: all;
-      animation: floatIdea var(--dur, 4s) ease-in-out infinite;
-      animation-delay: var(--delay, 0s);
-      text-align: center;
-      z-index: 2;
       transform: translateX(-50%);
+      animation: floatBoat var(--dur, 4s) ease-in-out infinite;
+      animation-delay: var(--delay, 0s);
+      z-index: 2;
     }
 
-    .piece-wrap {
-      position: relative;
-      width: 90px;
-      height: 90px;
-    }
-
-    .piece-svg {
+    .boat-svg {
       display: block;
       overflow: visible;
+      filter: drop-shadow(0 3px 6px rgba(0,0,0,0.35));
     }
 
-    .piece-label {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
+    .chip-title {
       font-family: 'Orbitron', sans-serif;
       font-size: 7px;
       font-weight: 700;
-      letter-spacing: 0.08em;
+      letter-spacing: 0.1em;
       text-transform: uppercase;
       color: #fff;
-      text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+      text-shadow: 0 1px 4px rgba(0,0,0,0.9);
       white-space: nowrap;
-      max-width: 62px;
-      text-align: center;
+      max-width: 72px;
       overflow: hidden;
       text-overflow: ellipsis;
-      line-height: 1.3;
-      pointer-events: none;
     }
 
     .chip-tooltip {
@@ -419,9 +407,31 @@
     }
     .idea-chip:hover .chip-tooltip { display: block; }
 
-    @keyframes floatIdea {
-      0%, 100% { transform: translateX(-50%) translateY(0px); }
-      50%       { transform: translateX(-50%) translateY(-9px); }
+    /* Hull colour picker */
+    .hull-picker {
+      display: flex;
+      gap: 5px;
+      flex-wrap: wrap;
+      padding: 2px 0;
+    }
+
+    .hull-swatch {
+      width: 20px; height: 20px;
+      border-radius: 50%;
+      border: 2px solid transparent;
+      cursor: pointer;
+      transition: border-color 0.12s, transform 0.12s;
+      flex-shrink: 0;
+    }
+    .hull-swatch:hover { transform: scale(1.15); }
+    .hull-swatch.selected { border-color: #0D0D0D; transform: scale(1.15); }
+
+    @keyframes floatBoat {
+      0%   { transform: translateX(-50%) translateY(0)    rotate(-1.2deg); }
+      25%  { transform: translateX(-50%) translateY(-6px) rotate(0.6deg);  }
+      50%  { transform: translateX(-50%) translateY(-8px) rotate(1.5deg);  }
+      75%  { transform: translateX(-50%) translateY(-4px) rotate(-0.4deg); }
+      100% { transform: translateX(-50%) translateY(0)    rotate(-1.2deg); }
     }
   </style>
 </head>
@@ -561,11 +571,12 @@
       <div class="idea-form" id="ideaForm">
         <input type="text" id="ideaTitle" class="if-input" placeholder="Title (2 words max)" maxlength="28" autocomplete="off">
         <textarea id="ideaDesc" class="if-textarea" placeholder="Describe the idea..."></textarea>
+        <div class="hull-picker" id="hullPicker"></div>
         <button class="if-btn" id="floatBtn">+ Float It</button>
       </div>
     </div>
     <div class="ideas-board" id="ideasBoard">
-      <img src="golden-gate.jpg" class="board-img" alt="Ideas board">
+      <img src="sf-painting.jpg" onerror="this.src='golden-gate.jpg'" class="board-img" alt="SF Bay — Ideas board">
       <div id="ideasContainer"></div>
     </div>
   </div>
@@ -585,23 +596,57 @@
       upd();
     })();
 
-    // ── Floating Ideas ──
+    // ── Floating Boats ──
     (function(){
-      var PIECE_COLORS = [
-        '#C44B3A','#D4882A','#3A8C5E','#3A5E8C',
-        '#7A3A8C','#8C3A5E','#5E8C3A','#3A8C8C',
-        '#8C6A3A','#4A6A8C','#8C3A3A','#3A6A5E'
+      var HULL_COLORS = [
+        { c: '#D92B2B', n: 'Red'    },
+        { c: '#E8650A', n: 'Orange' },
+        { c: '#C8A800', n: 'Gold'   },
+        { c: '#2BB560', n: 'Green'  },
+        { c: '#2255CC', n: 'Blue'   },
+        { c: '#8833CC', n: 'Purple' }
       ];
-      var PIECE_PATH = 'M 0,0 L 35,0 C 35,-14 65,-14 65,0 L 100,0 L 100,35 C 114,35 114,65 100,65 L 100,100 L 65,100 C 65,114 35,114 35,100 L 0,100 L 0,65 C -14,65 -14,35 0,35 Z';
+      var hullColor = HULL_COLORS[0].c;
+
+      // Build swatch picker
+      var picker = document.getElementById('hullPicker');
+      HULL_COLORS.forEach(function(hc, i) {
+        var sw = document.createElement('div');
+        sw.className = 'hull-swatch' + (i === 0 ? ' selected' : '');
+        sw.style.background = hc.c;
+        sw.title = hc.n;
+        sw.addEventListener('click', function() {
+          picker.querySelectorAll('.hull-swatch').forEach(function(s){ s.classList.remove('selected'); });
+          sw.classList.add('selected');
+          hullColor = hc.c;
+        });
+        picker.appendChild(sw);
+      });
 
       // Enforce 2-word max on title
       var titleInput = document.getElementById('ideaTitle');
       titleInput.addEventListener('input', function(){
         var words = titleInput.value.split(/\s+/);
-        if(words.length > 2){
-          titleInput.value = words.slice(0,2).join(' ');
-        }
+        if(words.length > 2) titleInput.value = words.slice(0,2).join(' ');
       });
+
+      function boatSVG(hull) {
+        // Small sailboat ~40×46px — white sails, tan mast, coloured hull
+        return '<svg class="boat-svg" viewBox="0 0 40 46" width="40" height="46" xmlns="http://www.w3.org/2000/svg">' +
+          // main sail (big triangle, left of mast)
+          '<polygon points="20,3 20,33 6,33" fill="rgba(255,255,255,0.96)" stroke="rgba(200,180,140,0.5)" stroke-width="0.4"/>' +
+          // jib sail (small triangle, right of mast)
+          '<polygon points="20,12 20,33 31,33" fill="rgba(255,255,255,0.88)" stroke="rgba(200,180,140,0.5)" stroke-width="0.4"/>' +
+          // mast
+          '<line x1="20" y1="1" x2="20" y2="35" stroke="#C8A800" stroke-width="1.4" stroke-linecap="round"/>' +
+          // hull body
+          '<path d="M4,33 Q20,40 36,33 L33,38 Q20,44 7,38 Z" fill="' + hull + '"/>' +
+          // hull highlight
+          '<path d="M6,34.5 Q20,41 34,34.5" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="0.8"/>' +
+          // water line shimmer
+          '<path d="M3,33.5 Q20,40.5 37,33.5" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="0.5"/>' +
+        '</svg>';
+      }
 
       // Float button
       document.getElementById('floatBtn').addEventListener('click', function(){
@@ -613,25 +658,18 @@
         var chip = document.createElement('div');
         chip.className = 'idea-chip';
 
-        // Random position within safe zone
-        var x = 8 + Math.random() * 76;
-        var y = 8 + Math.random() * 72;
-        chip.style.left  = x + '%';
-        chip.style.top   = y + '%';
-        chip.style.setProperty('--dur',   (3.2 + Math.random() * 2.8) + 's');
+        // Keep boats mostly in the water (lower 55% of image)
+        var x = 6  + Math.random() * 80;
+        var y = 40 + Math.random() * 48;
+        chip.style.left = x + '%';
+        chip.style.top  = y + '%';
+        chip.style.setProperty('--dur',   (3.5 + Math.random() * 3) + 's');
         chip.style.setProperty('--delay', (-Math.random() * 3) + 's');
 
-        var color = PIECE_COLORS[Math.floor(Math.random() * PIECE_COLORS.length)];
-        var fid = 'pf' + Date.now();
         chip.innerHTML =
-          '<div class="piece-wrap">' +
-            '<svg class="piece-svg" width="90" height="90" viewBox="-15 -15 130 130" xmlns="http://www.w3.org/2000/svg">' +
-              '<defs><filter id="' + fid + '" x="-30%" y="-30%" width="160%" height="160%"><feDropShadow dx="3" dy="5" stdDeviation="2.5" flood-color="rgba(0,0,0,0.4)" flood-opacity="1"/></filter></defs>' +
-              '<path d="' + PIECE_PATH + '" fill="' + color + '" filter="url(#' + fid + ')"/>' +
-            '</svg>' +
-            '<span class="piece-label">' + title + '</span>' +
-            (desc ? '<div class="chip-tooltip">' + desc + '</div>' : '') +
-          '</div>';
+          boatSVG(hullColor) +
+          '<span class="chip-title">' + title + '</span>' +
+          (desc ? '<div class="chip-tooltip">' + desc + '</div>' : '');
 
         container.appendChild(chip);
         titleInput.value = '';
