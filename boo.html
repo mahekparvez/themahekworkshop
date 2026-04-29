@@ -447,6 +447,22 @@
     .img-grid.wide img { aspect-ratio: 16/9; }
     .img-grid.single { grid-template-columns: 1fr; }
     .img-grid.single img { aspect-ratio: 16/9; max-height: 480px; }
+    /* ── Image gallery (shared with lightbox) ── */
+    .img-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 8px; }
+    .img-grid img { width: 100%; display: block; border: 1px solid rgba(13,13,13,0.1); object-fit: cover; aspect-ratio: 4/3; cursor: zoom-in; transition: opacity 0.15s; }
+    .img-grid img:hover { opacity: 0.88; }
+    .img-grid.portrait img { aspect-ratio: 9/16; }
+    .img-grid.single { grid-template-columns: 1fr; }
+    .img-grid.single img { aspect-ratio: 16/9; max-height: 460px; }
+    .lb-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.92); z-index:9999; align-items:center; justify-content:center; flex-direction:column; }
+    .lb-overlay.open { display:flex; }
+    .lb-img { max-width:min(90vw,900px); max-height:80vh; object-fit:contain; display:block; }
+    .lb-controls { display:flex; align-items:center; gap:24px; margin-top:16px; }
+    .lb-btn { font-family:"Orbitron",sans-serif; font-size:10px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:rgba(255,255,255,0.6); background:none; border:1px solid rgba(255,255,255,0.2); padding:7px 16px; cursor:pointer; transition:color 0.15s,border-color 0.15s; }
+    .lb-btn:hover { color:#fff; border-color:rgba(255,255,255,0.6); }
+    .lb-close { position:absolute; top:20px; right:24px; font-size:22px; color:rgba(255,255,255,0.5); cursor:pointer; background:none; border:none; line-height:1; padding:4px; }
+    .lb-close:hover { color:#fff; }
+    .lb-counter { font-family:"Orbitron",sans-serif; font-size:9px; font-weight:700; letter-spacing:0.1em; color:rgba(255,255,255,0.4); }
   </style>
 </head>
 <body>
@@ -638,5 +654,7 @@
     </div>
 
   </div>
+  <div class="lb-overlay" id="lb"><button class="lb-close" id="lbClose">&times;</button><img class="lb-img" id="lbImg" src="" alt=""><div class="lb-controls"><button class="lb-btn" id="lbPrev">&#8592; Prev</button><span class="lb-counter" id="lbCounter"></span><button class="lb-btn" id="lbNext">Next &#8594;</button></div></div>
+  <script>(function(){var imgs=[],cur=0;function open(i){cur=i;document.getElementById("lbImg").src=imgs[cur].src;document.getElementById("lbCounter").textContent=(cur+1)+" / "+imgs.length;document.getElementById("lb").classList.add("open");}function close(){document.getElementById("lb").classList.remove("open");}document.addEventListener("DOMContentLoaded",function(){imgs=Array.from(document.querySelectorAll(".img-grid img"));imgs.forEach(function(img,i){img.addEventListener("click",function(){open(i);});});document.getElementById("lbClose").onclick=close;document.getElementById("lbPrev").onclick=function(){open((cur-1+imgs.length)%imgs.length);};document.getElementById("lbNext").onclick=function(){open((cur+1)%imgs.length);};document.getElementById("lb").onclick=function(e){if(e.target===this)close();};document.addEventListener("keydown",function(e){if(!document.getElementById("lb").classList.contains("open"))return;if(e.key==="Escape")close();if(e.key==="ArrowLeft")open((cur-1+imgs.length)%imgs.length);if(e.key==="ArrowRight")open((cur+1)%imgs.length);});});})()</script>
 </body>
 </html>
