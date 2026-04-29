@@ -164,10 +164,11 @@
     .dot {
       width: 6px; height: 6px;
       border-radius: 50%;
-      background: #D92B2B;
+      background: #2BB560;
       flex-shrink: 0;
     }
-    .dot.wip { background: #D4882A; }
+    .dot.built { background: #C8A800; }
+    .dot.wip { background: #D92B2B; }
     .dot.soon { background: rgba(13,13,13,0.2); }
 
     .c-name {
@@ -366,24 +367,36 @@
       transform: translateX(-50%);
     }
 
-    .chip-icon {
-      font-size: 30px;
-      filter: drop-shadow(0 2px 6px rgba(0,0,0,0.5));
-      display: block;
+    .piece-wrap {
+      position: relative;
+      width: 90px;
+      height: 90px;
     }
 
-    .chip-title {
+    .piece-svg {
+      display: block;
+      overflow: visible;
+    }
+
+    .piece-label {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
       font-family: 'Orbitron', sans-serif;
-      font-size: 7.5px;
+      font-size: 7px;
       font-weight: 700;
-      letter-spacing: 0.1em;
+      letter-spacing: 0.08em;
       text-transform: uppercase;
       color: #fff;
-      text-shadow: 0 1px 4px rgba(0,0,0,0.9), 0 0 10px rgba(0,0,0,0.6);
+      text-shadow: 0 1px 3px rgba(0,0,0,0.8);
       white-space: nowrap;
-      max-width: 88px;
+      max-width: 62px;
+      text-align: center;
       overflow: hidden;
       text-overflow: ellipsis;
+      line-height: 1.3;
+      pointer-events: none;
     }
 
     .chip-tooltip {
@@ -424,7 +437,7 @@
     </div>
     <div class="page-body">
       <h1 class="page-title">Projects</h1>
-      <p class="page-sub">things i've built</p>
+      <p class="page-sub">things I bring to life</p>
       <div class="health-bar">
         <svg id="heart-svg" viewBox="0 0 14 12" width="22" height="19" xmlns="http://www.w3.org/2000/svg" style="image-rendering:pixelated;shape-rendering:crispEdges;display:block;flex-shrink:0;transition:width 0.05s,height 0.05s">
           <rect x="2" y="0" width="4" height="2" fill="#D92B2B"/><rect x="8" y="0" width="4" height="2" fill="#D92B2B"/>
@@ -448,15 +461,15 @@
         </a>
 
         <a href="https://docs.google.com/document/d/1li2pEY9dPF64TegyU-M9xeXwpDL2sg06tV5N5-QgF-w/edit?tab=t.bm7cw6iwggne" target="_blank" rel="noopener" class="card">
-          <div class="c-status"><div class="dot"></div>Built</div>
+          <div class="c-status"><div class="dot built"></div>Built</div>
           <div class="c-name">Thumbless</div>
           <p class="c-desc">My robot hand that switches off the light when I get lazy in bed. 4 fingers, servo-actuated, controlled by a glove. This project made me realise I actually like building physical things.</p>
           <div class="tags"><span class="tag">Robotics</span><span class="tag">Perfboard Design</span><span class="tag">3D Printing</span></div>
           <span class="c-arrow">↗</span>
         </a>
 
-        <a href="https://docs.google.com/document/d/1li2pEY9dPF64TegyU-M9xeXwpDL2sg06tV5N5-QgF-w/edit?tab=t.bm7cw6iwggne" target="_blank" rel="noopener" class="card">
-          <div class="c-status"><div class="dot"></div>Built</div>
+        <a href="ferb.html" class="card">
+          <div class="c-status"><div class="dot built"></div>Built</div>
           <div class="c-name">Ferb</div>
           <p class="c-desc">Built my first speaker from scratch. Electrical schematics, PCB design, acoustics, and the satisfaction of something that makes you more technically sound.</p>
           <div class="tags"><span class="tag">Hardware</span><span class="tag">PCB</span><span class="tag">Audio</span><span class="tag">Component Research</span></div>
@@ -472,7 +485,7 @@
         </a>
 
         <a href="https://docs.google.com/document/d/1li2pEY9dPF64TegyU-M9xeXwpDL2sg06tV5N5-QgF-w/edit?tab=t.bm7cw6iwggne" target="_blank" rel="noopener" class="card">
-          <div class="c-status"><div class="dot"></div>Built</div>
+          <div class="c-status"><div class="dot built"></div>Built</div>
           <div class="c-name">PicNEat</div>
           <p class="c-desc">Point your phone at food. Get nutrition data back. An iOS app with a custom ML pipeline that makes healthy eating feel less like homework.</p>
           <div class="tags"><span class="tag">UI/UX</span><span class="tag">Flutter</span><span class="tag">OpenCV</span><span class="tag">App</span><span class="tag">Figma</span><span class="tag">App Dev</span><span class="tag">Claude Code</span><span class="tag">Recruiting</span></div>
@@ -480,7 +493,7 @@
         </a>
 
         <a href="https://docs.google.com/document/d/1li2pEY9dPF64TegyU-M9xeXwpDL2sg06tV5N5-QgF-w/edit?tab=t.bm7cw6iwggne" target="_blank" rel="noopener" class="card">
-          <div class="c-status"><div class="dot"></div>Built</div>
+          <div class="c-status"><div class="dot built"></div>Built</div>
           <div class="c-name">LinkedIn Warrior</div>
           <p class="c-desc">A Chrome extension that helps engineering students write LinkedIn posts that actually get traction. Because engineers deserve an audience too.</p>
           <div class="tags"><span class="tag">APIs</span><span class="tag">Chrome Extension</span><span class="tag">Cursor</span><span class="tag">Security</span><span class="tag">Git</span></div>
@@ -488,7 +501,7 @@
         </a>
 
         <a href="mahekparvez.com" class="card">
-          <div class="c-status"><div class="dot"></div>Built</div>
+          <div class="c-status"><div class="dot built"></div>Built</div>
           <div class="c-name">Mahek's Workshop</div>
           <p class="c-desc">Putting this website together was fun! Reminded me of how much I like bright colors, and that I have some design sense from my childhood left in me.</p>
           <div class="tags"><span class="tag">Pixel Art</span><span class="tag">Claude Code</span><span class="tag">UI/UX</span><span class="tag">Nanobanana 2</span></div>
@@ -496,7 +509,7 @@
         </a>
 
         <a href="https://docs.google.com/document/d/1li2pEY9dPF64TegyU-M9xeXwpDL2sg06tV5N5-QgF-w/edit?tab=t.bm7cw6iwggne" target="_blank" rel="noopener" class="card">
-          <div class="c-status"><div class="dot"></div>Built</div>
+          <div class="c-status"><div class="dot built"></div>Built</div>
           <div class="c-name">Keychain</div>
           <p class="c-desc">A 3×3 button matrix on a PSoC 6 BLE MCU — each button toggles its own LED. Firmware in C with debouncing and GPIO scanning. Small, satisfying, and embarrassingly fun to click.</p>
           <div class="tags"><span class="tag">Embedded C</span><span class="tag">PSoC 6</span><span class="tag">ModusToolbox</span><span class="tag">GPIO</span><span class="tag">Hardware</span></div>
@@ -524,7 +537,6 @@
       <div class="idea-form" id="ideaForm">
         <input type="text" id="ideaTitle" class="if-input" placeholder="Title (2 words max)" maxlength="28" autocomplete="off">
         <textarea id="ideaDesc" class="if-textarea" placeholder="Describe the idea..."></textarea>
-        <div class="if-icons" id="iconPicker"></div>
         <button class="if-btn" id="floatBtn">+ Float It</button>
       </div>
     </div>
@@ -551,28 +563,12 @@
 
     // ── Floating Ideas ──
     (function(){
-      var ICONS = [
-        '🖱️','🎨','☁️','🌿','⛰️','🛡️',
-        '🖌️','✏️','🔥','💣','🧪','🍄',
-        '🍃','🏆','➡️','💎','🎵','💋',
-        '⚡','🌊','🦋','🎯','🧲','🔮'
+      var PIECE_COLORS = [
+        '#C44B3A','#D4882A','#3A8C5E','#3A5E8C',
+        '#7A3A8C','#8C3A5E','#5E8C3A','#3A8C8C',
+        '#8C6A3A','#4A6A8C','#8C3A3A','#3A6A5E'
       ];
-      var selectedIcon = ICONS[0];
-
-      // Build icon picker
-      var picker = document.getElementById('iconPicker');
-      ICONS.forEach(function(ic, i){
-        var btn = document.createElement('button');
-        btn.className = 'if-icon-btn' + (i === 0 ? ' selected' : '');
-        btn.textContent = ic;
-        btn.type = 'button';
-        btn.addEventListener('click', function(){
-          picker.querySelectorAll('.if-icon-btn').forEach(function(b){ b.classList.remove('selected'); });
-          btn.classList.add('selected');
-          selectedIcon = ic;
-        });
-        picker.appendChild(btn);
-      });
+      var PIECE_PATH = 'M 0,0 L 35,0 C 35,-14 65,-14 65,0 L 100,0 L 100,35 C 114,35 114,65 100,65 L 100,100 L 65,100 C 65,114 35,114 35,100 L 0,100 L 0,65 C -14,65 -14,35 0,35 Z';
 
       // Enforce 2-word max on title
       var titleInput = document.getElementById('ideaTitle');
@@ -601,10 +597,17 @@
         chip.style.setProperty('--dur',   (3.2 + Math.random() * 2.8) + 's');
         chip.style.setProperty('--delay', (-Math.random() * 3) + 's');
 
+        var color = PIECE_COLORS[Math.floor(Math.random() * PIECE_COLORS.length)];
+        var fid = 'pf' + Date.now();
         chip.innerHTML =
-          '<span class="chip-icon">' + selectedIcon + '</span>' +
-          '<span class="chip-title">' + title + '</span>' +
-          (desc ? '<div class="chip-tooltip">' + desc + '</div>' : '');
+          '<div class="piece-wrap">' +
+            '<svg class="piece-svg" width="90" height="90" viewBox="-15 -15 130 130" xmlns="http://www.w3.org/2000/svg">' +
+              '<defs><filter id="' + fid + '" x="-30%" y="-30%" width="160%" height="160%"><feDropShadow dx="3" dy="5" stdDeviation="2.5" flood-color="rgba(0,0,0,0.4)" flood-opacity="1"/></filter></defs>' +
+              '<path d="' + PIECE_PATH + '" fill="' + color + '" filter="url(#' + fid + ')"/>' +
+            '</svg>' +
+            '<span class="piece-label">' + title + '</span>' +
+            (desc ? '<div class="chip-tooltip">' + desc + '</div>' : '') +
+          '</div>';
 
         container.appendChild(chip);
         titleInput.value = '';

@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FERB — Mahek Parvez</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&family=Orbitron:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      min-height: 100vh;
+      background: #F0EDE6;
+      font-family: 'Fredoka', sans-serif;
+      padding: 56px 20px 100px;
+    }
+
+    .wrap {
+      max-width: 760px;
+      margin: 0 auto;
+      animation: rise 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(-8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── Header ── */
+    .page-header {
+      border: 2px solid #0D0D0D;
+      border-bottom: none;
+      padding: 14px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .back-btn {
+      text-decoration: none;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #0D0D0D;
+      opacity: 0.4;
+      transition: opacity 0.2s, color 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .back-btn:hover { opacity: 1; color: #D92B2B; }
+
+    .header-tag {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(13,13,13,0.3);
+    }
+
+    /* ── Hero block ── */
+    .hero {
+      border: 2px solid #0D0D0D;
+      border-bottom: none;
+      padding: 44px 52px 40px;
+      background: #0D0D0D;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: 'FERB';
+      position: absolute;
+      right: -10px;
+      bottom: -30px;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 140px;
+      font-weight: 800;
+      color: rgba(255,255,255,0.04);
+      letter-spacing: -4px;
+      line-height: 1;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .project-label {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #D92B2B;
+      margin-bottom: 10px;
+    }
+
+    .project-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: clamp(52px, 14vw, 96px);
+      font-weight: 800;
+      color: #F0EDE6;
+      letter-spacing: -3px;
+      line-height: 0.9;
+      margin-bottom: 22px;
+    }
+
+    .status-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .status-pill {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(240,237,230,0.45);
+    }
+
+    .dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: #C8A800;
+      flex-shrink: 0;
+    }
+
+    .hero-tags { display: flex; flex-wrap: wrap; gap: 5px; }
+    .hero-tag {
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border: 1px solid rgba(240,237,230,0.2);
+      color: rgba(240,237,230,0.55);
+    }
+
+    /* ── Body ── */
+    .page-body {
+      border: 2px solid #0D0D0D;
+      border-bottom: none;
+      background: #F0EDE6;
+    }
+
+    /* Section blocks */
+    .section {
+      padding: 36px 52px;
+      border-bottom: 1.5px solid rgba(13,13,13,0.1);
+    }
+    .section:last-child { border-bottom: none; }
+
+    .section-label {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #D92B2B;
+      margin-bottom: 14px;
+    }
+
+    .body-text {
+      font-size: 15px;
+      line-height: 1.75;
+      color: #0D0D0D;
+      opacity: 0.78;
+    }
+
+    /* ── Video embed ── */
+    .video-wrap {
+      position: relative;
+      width: 100%;
+      /* YouTube Shorts are ~9:16 — cap height so it doesn't dominate */
+      max-width: 320px;
+      aspect-ratio: 9/16;
+      border: 2px solid #0D0D0D;
+      overflow: hidden;
+      background: #0D0D0D;
+    }
+
+    .video-wrap iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    /* ── Links ── */
+    .doc-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #0D0D0D;
+      text-decoration: none;
+      border: 1.5px solid #0D0D0D;
+      padding: 9px 16px;
+      transition: background 0.15s, color 0.15s;
+      margin-top: 14px;
+    }
+    .doc-link:hover { background: #0D0D0D; color: #F0EDE6; }
+    .doc-link .arrow { font-size: 12px; }
+
+    .ref-link {
+      display: inline-block;
+      font-size: 13px;
+      color: #D92B2B;
+      text-decoration: none;
+      border-bottom: 1px solid rgba(217,43,43,0.3);
+      transition: border-color 0.15s;
+      word-break: break-all;
+      line-height: 1.6;
+    }
+    .ref-link:hover { border-color: #D92B2B; }
+
+    /* ── Learnings ── */
+    .learnings-list {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .learning-item {
+      display: grid;
+      grid-template-columns: 40px 1fr;
+      gap: 0 16px;
+      align-items: start;
+    }
+
+    .l-num {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 28px;
+      font-weight: 800;
+      color: rgba(13,13,13,0.08);
+      line-height: 1.1;
+      text-align: right;
+    }
+
+    .l-body {
+      padding-top: 4px;
+    }
+
+    .l-headline {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #0D0D0D;
+      margin-bottom: 6px;
+      line-height: 1.4;
+    }
+
+    .l-text {
+      font-size: 14px;
+      line-height: 1.7;
+      color: #0D0D0D;
+      opacity: 0.68;
+    }
+
+    /* ── Mental Note ── */
+    .mental-note {
+      background: rgba(217,43,43,0.05);
+      border-left: 3px solid #D92B2B;
+      padding: 18px 22px;
+    }
+
+    .mental-note-label {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 8.5px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #D92B2B;
+      margin-bottom: 8px;
+    }
+
+    .mental-note-text {
+      font-size: 14px;
+      line-height: 1.7;
+      color: #0D0D0D;
+      opacity: 0.72;
+    }
+
+    /* ── Gratitude ── */
+    .gratitude-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .g-name {
+      font-size: 13px;
+      font-weight: 500;
+      color: #0D0D0D;
+      background: rgba(13,13,13,0.06);
+      border: 1px solid rgba(13,13,13,0.15);
+      padding: 5px 12px;
+    }
+
+    /* ── Improvements ── */
+    .improvement-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .improvement-text {
+      font-size: 14.5px;
+      color: #0D0D0D;
+      opacity: 0.72;
+    }
+
+    .done-badge {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 8px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #2BB560;
+      border: 1.5px solid #2BB560;
+      padding: 3px 8px;
+      white-space: nowrap;
+    }
+
+    /* ── Footer strip ── */
+    .page-footer {
+      border: 2px solid #0D0D0D;
+      padding: 16px 52px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .footer-note {
+      font-size: 11px;
+      color: rgba(13,13,13,0.35);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .next-link {
+      text-decoration: none;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #0D0D0D;
+      opacity: 0.4;
+      transition: opacity 0.2s, color 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .next-link:hover { opacity: 1; color: #D92B2B; }
+
+    @media (max-width: 580px) {
+      body { padding: 32px 16px 80px; }
+      .hero { padding: 32px 28px 28px; }
+      .section { padding: 28px 28px; }
+      .page-footer { padding: 14px 28px; }
+      .learning-item { grid-template-columns: 30px 1fr; gap: 0 10px; }
+      .l-num { font-size: 20px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+
+    <!-- Header -->
+    <div class="page-header">
+      <a href="projects.html" class="back-btn">← Projects</a>
+      <span class="header-tag">Project 01</span>
+    </div>
+
+    <!-- Hero -->
+    <div class="hero">
+      <p class="project-label">Built</p>
+      <h1 class="project-title">FERB</h1>
+      <div class="status-row">
+        <div class="status-pill">
+          <div class="dot"></div>
+          Built
+        </div>
+        <div class="hero-tags">
+          <span class="hero-tag">Electronics</span>
+          <span class="hero-tag">PCB Design</span>
+          <span class="hero-tag">Acoustics</span>
+          <span class="hero-tag">Component Research</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Body -->
+    <div class="page-body">
+
+      <!-- Goal -->
+      <div class="section">
+        <p class="section-label">The Goal</p>
+        <p class="body-text">Fix my speaker and pair it with another speaker so both could work together. I burned my circuit board while trying to fix it — so I ended up learning to build a speaker from scratch instead.</p>
+      </div>
+
+      <!-- Video -->
+      <div class="section">
+        <p class="section-label">See It</p>
+        <div class="video-wrap">
+          <iframe
+            src="https://www.youtube.com/embed/bBwBGv7wSrg"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+            title="FERB - Speaker Build">
+          </iframe>
+        </div>
+      </div>
+
+      <!-- Process -->
+      <div class="section">
+        <p class="section-label">Process</p>
+        <p class="body-text">Every experiment, mistake, and fix — documented as it happened.</p>
+        <a href="https://docs.google.com/document/d/1JS7_gEcijvrCxCHHSyiXbYdP1qyv130axIuHq9SFJQc/edit?usp=sharing" target="_blank" rel="noopener" class="doc-link">
+          Read the Build Doc <span class="arrow">↗</span>
+        </a>
+      </div>
+
+      <!-- Reference -->
+      <div class="section">
+        <p class="section-label">Reference Kit</p>
+        <p class="body-text" style="margin-bottom: 10px;">The GikFun USB Mini Amplifier kit — the starting point before things went sideways.</p>
+        <a href="https://gikfun.com/collections/frontpage/products/gikfun-usb-mini-amplifier-electronic-transparent-stereo-speaker-box-sound-amplifier-diy-kit"
+           target="_blank" rel="noopener" class="ref-link">
+          gikfun.com — USB Mini Amplifier DIY Kit ↗
+        </a>
+      </div>
+
+      <!-- Top 3 Learnings -->
+      <div class="section">
+        <p class="section-label">Top 3 Learnings</p>
+        <div class="learnings-list">
+
+          <div class="learning-item">
+            <div class="l-num">01</div>
+            <div class="l-body">
+              <p class="l-headline">Email Profs Faster</p>
+              <p class="l-text">Write to 10 people for help as soon as you're done with the 3rd test — less than halfway through your journey. Share your thoughts, worries, and problems with them. Seek wisdom from people who've already walked the path.</p>
+            </div>
+          </div>
+
+          <div class="learning-item">
+            <div class="l-num">02</div>
+            <div class="l-body">
+              <p class="l-headline">Learn 1 Thing Well</p>
+              <p class="l-text">Pick just one core skill per project — PCB design, acoustics, CAD, or some other engineering skill — and go deep on it. Find people good at it through campus club events (Hack Purdue Hack Nights on Friday evenings) or LinkedIn.</p>
+            </div>
+          </div>
+
+          <div class="learning-item">
+            <div class="l-num">03</div>
+            <div class="l-body">
+              <p class="l-headline">Document Every Day</p>
+              <p class="l-text">Log what you learn in a word doc as you build — every day. Each YouTube video, research paper, article. Like a journal. You'll almost invariably forget everything 7 days out. This is the single biggest learning from this whole project.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Mental Note -->
+      <div class="section">
+        <p class="section-label">Mental Note</p>
+        <div class="mental-note">
+          <p class="mental-note-label">⚡ Personal reminder</p>
+          <p class="mental-note-text">Do not post your building process with crazy production quality when you're just starting to build a skill. It's personally very all-consumingly-stressful — and distracts from the actual building.</p>
+        </div>
+      </div>
+
+      <!-- Gratitude -->
+      <div class="section">
+        <p class="section-label">Grateful For</p>
+        <p class="body-text" style="margin-bottom: 16px; font-size: 13px;">People who gave their time, expertise, or encouragement to this project.</p>
+        <div class="gratitude-list">
+          <span class="g-name">Dr. Tae Hong Park</span>
+          <span class="g-name">Dr. Rosa Diaz</span>
+          <span class="g-name">Shubham Saluja Kumar Agarwal</span>
+          <span class="g-name">Alexander Repikov</span>
+          <span class="g-name">Joseph</span>
+        </div>
+      </div>
+
+      <!-- Improvements -->
+      <div class="section">
+        <p class="section-label">Potential Improvements</p>
+        <div class="improvement-row">
+          <p class="improvement-text">Audio Equalizer</p>
+          <span class="done-badge">✓ Done</span>
+          <a href="https://docs.google.com/document/d/13OlnDFUAoREUBvEfE55vC7-513W02YWM_wj0b-orG8U/edit?usp=sharing"
+             target="_blank" rel="noopener" class="ref-link" style="font-size: 12px;">
+            See the EQ doc ↗
+          </a>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Footer -->
+    <div class="page-footer">
+      <span class="footer-note">mahek's workshop</span>
+      <a href="projects.html" class="next-link">All Projects →</a>
+    </div>
+
+  </div>
+</body>
+</html>
