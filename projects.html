@@ -863,8 +863,15 @@
         chip.addEventListener('touchstart', function(e){
           if (e.target.classList.contains('boat-delete')) return;
           start(e.touches[0].clientX, e.touches[0].clientY);
-          e.preventDefault();
-        }, {passive:false});
+          // attach drag listener only while dragging
+          document.addEventListener('touchmove', onTouchMove, {passive:false});
+        }, {passive:true});
+      }
+
+      function onTouchMove(e) {
+        if (!dragState) return;
+        moveDrag(e.touches[0].clientX, e.touches[0].clientY);
+        e.preventDefault();
       }
 
       function moveDrag(cx, cy) {
@@ -883,10 +890,10 @@
         dragState = null;
         if (ideas[key]) { ideas[key].x = nx; ideas[key].y = ny; }
         fbPatch(key, {x: nx, y: ny});
+        document.removeEventListener('touchmove', onTouchMove);
       }
 
       document.addEventListener('mousemove', function(e){ moveDrag(e.clientX, e.clientY); });
-      document.addEventListener('touchmove', function(e){ if(!dragState) return; moveDrag(e.touches[0].clientX, e.touches[0].clientY); e.preventDefault(); }, {passive:false});
       document.addEventListener('mouseup', endDrag);
       document.addEventListener('touchend', endDrag);
 
