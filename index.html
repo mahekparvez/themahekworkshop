@@ -194,11 +194,15 @@
     .nav-map-item:hover .nm-arrow { color: rgba(240,237,230,0.6); }
 
     .tagline-hint {
-      font-size: 11px;
-      color: rgba(13,13,13,0.35);
+      font-family: 'Fredoka', sans-serif;
+      font-size: 18px;
+      color: #0D0D0D;
+      opacity: 0.42;
       letter-spacing: 0.03em;
-      margin-top: 6px;
+      margin-top: auto;
     }
+    @media (min-width: 900px) { .tagline-hint { font-size: 20px; } }
+    @media (min-width: 1280px) { .tagline-hint { font-size: 22px; } }
 
     .mosaic-popup {
       position: absolute;
@@ -245,13 +249,7 @@
         </nav>
       </div>
       <span class="tagline"><a href="projects.html">hardware</a> * <a href="passions.html">content creation</a></span>
-      <p class="tagline-hint">(tap on the files I'm holding!)</p>
-      <nav class="nav-map" aria-label="Site sections">
-        <a href="projects.html" class="nav-map-item"><span>Projects</span><span class="nm-arrow">↗</span></a>
-        <a href="passions.html" class="nav-map-item"><span>Passions</span><span class="nm-arrow">↗</span></a>
-        <a href="people.html"   class="nav-map-item"><span>People</span><span class="nm-arrow">↗</span></a>
-        <a href="problems.html" class="nav-map-item"><span>Problems</span><span class="nm-arrow">↗</span></a>
-      </nav>
+      <p class="tagline-hint" style="margin-top:auto;">(tap on the files I'm holding!)</p>
     </div>
 
     <div class="illus-wrap">
