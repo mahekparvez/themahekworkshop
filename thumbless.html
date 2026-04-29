@@ -439,6 +439,24 @@
       .learning-item { grid-template-columns: 30px 1fr; gap: 0 10px; }
       .l-num { font-size: 20px; }
     }
+
+    /* ── Image gallery ── */
+    .img-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+    }
+    .img-grid img {
+      width: 100%;
+      display: block;
+      border: 1px solid rgba(13,13,13,0.1);
+      object-fit: cover;
+      aspect-ratio: 4/3;
+    }
+    .img-grid.portrait img { aspect-ratio: 9/16; }
+    .img-grid.wide img { aspect-ratio: 16/9; }
+    .img-grid.single { grid-template-columns: 1fr; }
+    .img-grid.single img { aspect-ratio: 16/9; max-height: 480px; }
   </style>
 </head>
 <body>
@@ -486,6 +504,14 @@
             allowfullscreen
             title="Thumbless — Robot Hand">
           </iframe>
+        </div>
+      </div>
+
+      <!-- Photo -->
+      <div class="section">
+        <p class="section-label">The Build</p>
+        <div class="img-grid single">
+          <img src="project-images/thumbless-hand.jpg" alt="Thumbless — Robot hand">
         </div>
       </div>
 

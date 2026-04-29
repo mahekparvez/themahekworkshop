@@ -518,6 +518,24 @@
       .learning-item { grid-template-columns: 30px 1fr; gap: 0 10px; }
       .l-num { font-size: 20px; }
     }
+
+    /* ── Image gallery ── */
+    .img-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+    }
+    .img-grid img {
+      width: 100%;
+      display: block;
+      border: 1px solid rgba(13,13,13,0.1);
+      object-fit: cover;
+      aspect-ratio: 4/3;
+    }
+    .img-grid.portrait img { aspect-ratio: 9/16; }
+    .img-grid.wide img { aspect-ratio: 16/9; }
+    .img-grid.single { grid-template-columns: 1fr; }
+    .img-grid.single img { aspect-ratio: 16/9; max-height: 480px; }
   </style>
 </head>
 <body>
@@ -596,6 +614,16 @@
         <div class="paused-box">
           <p class="paused-label">Why It's Paused</p>
           <p class="paused-text">Getting the app integration right requires <strong>FPGA design</strong> — which I haven't learned yet. <strong>ECE 270</strong> (Fall 2026, hopefully) covers exactly this. Shall be continued.</p>
+        </div>
+      </div>
+
+      <!-- Photos -->
+      <div class="section">
+        <p class="section-label">In Progress</p>
+        <div class="img-grid">
+          <img src="project-images/hk-breadboard.png" alt="Habit Keychain — Breadboard setup">
+          <img src="project-images/hk-pcb.png" alt="Habit Keychain — PCB with LEDs">
+          <img src="project-images/hk-story.png" alt="Habit Keychain — Build story" style="grid-column: span 2;">
         </div>
       </div>
 

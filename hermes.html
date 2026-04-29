@@ -385,6 +385,24 @@
       .learning-item { grid-template-columns: 30px 1fr; gap: 0 10px; }
       .l-num { font-size: 20px; }
     }
+
+    /* ── Image gallery ── */
+    .img-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+    }
+    .img-grid img {
+      width: 100%;
+      display: block;
+      border: 1px solid rgba(13,13,13,0.1);
+      object-fit: cover;
+      aspect-ratio: 4/3;
+    }
+    .img-grid.portrait img { aspect-ratio: 9/16; }
+    .img-grid.wide img { aspect-ratio: 16/9; }
+    .img-grid.single { grid-template-columns: 1fr; }
+    .img-grid.single img { aspect-ratio: 16/9; max-height: 480px; }
   </style>
 </head>
 <body>
@@ -421,6 +439,15 @@
       <div class="section">
         <p class="section-label">The Goal</p>
         <p class="body-text">Build an autonomous AI agent that helps me do social media research — so I can understand what's working, what's trending, and what to build next, without doing it all manually.</p>
+      </div>
+
+      <!-- Photos -->
+      <div class="section">
+        <p class="section-label">See It</p>
+        <div class="img-grid">
+          <img src="project-images/hermes-graphic.png" alt="Hermes Agent — Graphic">
+          <img src="project-images/hermes-discord.png" alt="Hermes Agent — Discord research">
+        </div>
       </div>
 
       <!-- Process -->

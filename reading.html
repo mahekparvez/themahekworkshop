@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reading — Mahek Parvez</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&family=Orbitron:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      min-height: 100vh;
+      background: #F0EDE6;
+      font-family: 'Fredoka', sans-serif;
+      padding: 56px 20px 100px;
+    }
+
+    .wrap {
+      max-width: 760px;
+      margin: 0 auto;
+      animation: rise 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(-8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── Header ── */
+    .page-header {
+      border: 2px solid #0D0D0D;
+      border-bottom: none;
+      padding: 14px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .back-btn {
+      text-decoration: none;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #0D0D0D;
+      opacity: 0.4;
+      transition: opacity 0.2s, color 0.2s;
+    }
+    .back-btn:hover { opacity: 1; color: #D92B2B; }
+
+    /* ── Body ── */
+    .page-body {
+      border: 2px solid #0D0D0D;
+      padding: 48px 52px 64px;
+      background: #F0EDE6;
+    }
+
+    .page-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: clamp(36px, 10vw, 72px);
+      font-weight: 800;
+      color: #0D0D0D;
+      text-transform: uppercase;
+      letter-spacing: -2px;
+      line-height: 0.95;
+      margin-bottom: 6px;
+    }
+
+    .page-sub {
+      font-size: 12px;
+      color: #0D0D0D;
+      opacity: 0.42;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: 48px;
+    }
+
+    /* ── Section ── */
+    .section-label {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #D92B2B;
+      margin-bottom: 16px;
+      margin-top: 40px;
+    }
+    .section-label:first-child { margin-top: 0; }
+
+    /* ── Book list ── */
+    .book-list {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      margin-bottom: 8px;
+    }
+
+    .book-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0;
+      text-decoration: none;
+      border: 1.5px solid rgba(13,13,13,0.12);
+      padding: 14px 18px;
+      background: #F0EDE6;
+      transition: background 0.13s;
+    }
+    .book-item:hover { background: #0D0D0D; }
+
+    .book-body {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .book-title {
+      font-size: 15px;
+      font-weight: 600;
+      color: #0D0D0D;
+      line-height: 1.35;
+      transition: color 0.13s;
+    }
+    .book-item:hover .book-title { color: #F0EDE6; }
+
+    .book-author {
+      font-size: 12px;
+      color: rgba(13,13,13,0.45);
+      transition: color 0.13s;
+    }
+    .book-item:hover .book-author { color: rgba(240,237,230,0.5); }
+
+    .book-note {
+      font-size: 12px;
+      font-style: italic;
+      color: rgba(13,13,13,0.5);
+      line-height: 1.5;
+      transition: color 0.13s;
+      margin-top: 2px;
+    }
+    .book-item:hover .book-note { color: rgba(240,237,230,0.45); }
+
+    .book-arrow {
+      font-size: 14px;
+      color: rgba(13,13,13,0.2);
+      flex-shrink: 0;
+      align-self: center;
+      margin-left: 12px;
+      transition: color 0.13s;
+    }
+    .book-item:hover .book-arrow { color: rgba(240,237,230,0.5); }
+
+    /* Static (no link) */
+    .book-item.no-link {
+      pointer-events: none;
+    }
+
+    /* ── Footer ── */
+    .page-footer {
+      border: 2px solid #0D0D0D;
+      border-top: none;
+      padding: 16px 52px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .footer-note {
+      font-size: 11px;
+      color: rgba(13,13,13,0.35);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    @media (max-width: 580px) {
+      body { padding: 32px 16px 80px; }
+      .page-body { padding: 32px 24px 48px; }
+      .page-footer { padding: 14px 24px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+
+    <div class="page-header">
+      <a href="problems.html" class="back-btn">← Back</a>
+    </div>
+
+    <div class="page-body">
+      <h1 class="page-title">Reading</h1>
+      <p class="page-sub">things that have genuinely changed how I think</p>
+
+      <!-- Currently loving -->
+      <p class="section-label">Currently Loving</p>
+      <div class="book-list">
+
+        <a href="https://www.highagency.com/" target="_blank" rel="noopener" class="book-item">
+          <div class="book-body">
+            <span class="book-title">High Agency</span>
+            <span class="book-author">George Mack</span>
+            <span class="book-note">The most useful mental models I've read in one place.</span>
+          </div>
+          <span class="book-arrow">↗</span>
+        </a>
+
+        <a href="https://www.paulgraham.com/articles.html" target="_blank" rel="noopener" class="book-item">
+          <div class="book-body">
+            <span class="book-title">Paul Graham's Essays</span>
+            <span class="book-author">Paul Graham</span>
+            <span class="book-note">Read everything. Start with "How to Do Great Work."</span>
+          </div>
+          <span class="book-arrow">↗</span>
+        </a>
+
+        <a href="https://www.amazon.com/Outliers-Story-Success-Malcolm-Gladwell/dp/0316017930" target="_blank" rel="noopener" class="book-item">
+          <div class="book-body">
+            <span class="book-title">Outliers</span>
+            <span class="book-author">Malcolm Gladwell</span>
+            <span class="book-note">Why the story of success is not what we think.</span>
+          </div>
+          <span class="book-arrow">↗</span>
+        </a>
+
+        <a href="https://vinay.sh/i-am-rich-and-have-no-idea-what-to-do-with-my-life/" target="_blank" rel="noopener" class="book-item">
+          <div class="book-body">
+            <span class="book-title">I Am Rich and Have No Idea What to Do With My Life</span>
+            <span class="book-author">Vinay Hiremath</span>
+            <span class="book-note">One of the most honest essays I've ever read.</span>
+          </div>
+          <span class="book-arrow">↗</span>
+        </a>
+
+      </div>
+
+      <!-- Essays + Long reads -->
+      <p class="section-label">Essays &amp; Long Reads</p>
+      <div class="book-list">
+
+        <a href="https://www.cold-takes.com/most-important-century/" target="_blank" rel="noopener" class="book-item">
+          <div class="book-body">
+            <span class="book-title">The Most Important Century</span>
+            <span class="book-author">Holden Karnofsky</span>
+          </div>
+          <span class="book-arrow">↗</span>
+        </a>
+
+        <a href="https://www.waitbutwhy.com/2015/01/artificial-intelligence-revolution-1.html" target="_blank" rel="noopener" class="book-item">
+          <div class="book-body">
+            <span class="book-title">The AI Revolution</span>
+            <span class="book-author">Tim Urban — Wait But Why</span>
+          </div>
+          <span class="book-arrow">↗</span>
+        </a>
+
+        <a href="https://sive.rs/hellyeah" target="_blank" rel="noopener" class="book-item">
+          <div class="book-body">
+            <span class="book-title">Hell Yeah or No</span>
+            <span class="book-author">Derek Sivers</span>
+          </div>
+          <span class="book-arrow">↗</span>
+        </a>
+
+      </div>
+
+      <!-- Shall keep this updated -->
+      <p style="font-size: 12px; color: rgba(13,13,13,0.35); letter-spacing: 0.04em; text-transform: uppercase; margin-top: 24px;">Shall keep this updated as I go.</p>
+
+    </div>
+
+    <div class="page-footer">
+      <span class="footer-note">mahek's workshop</span>
+    </div>
+
+  </div>
+</body>
+</html>

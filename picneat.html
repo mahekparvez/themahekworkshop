@@ -479,6 +479,24 @@
       .l-num { font-size: 20px; }
       .version-row { grid-template-columns: 44px 1fr auto; }
     }
+
+    /* ── Image gallery ── */
+    .img-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+    }
+    .img-grid img {
+      width: 100%;
+      display: block;
+      border: 1px solid rgba(13,13,13,0.1);
+      object-fit: cover;
+      aspect-ratio: 4/3;
+    }
+    .img-grid.portrait img { aspect-ratio: 9/16; }
+    .img-grid.wide img { aspect-ratio: 16/9; }
+    .img-grid.single { grid-template-columns: 1fr; }
+    .img-grid.single img { aspect-ratio: 16/9; max-height: 480px; }
   </style>
 </head>
 <body>
@@ -579,6 +597,20 @@
             <span class="v-arrow">↗</span>
           </a>
 
+        </div>
+      </div>
+
+      <!-- Screenshots -->
+      <div class="section">
+        <p class="section-label">See It</p>
+        <div class="img-grid" style="grid-template-columns: repeat(3, 1fr);">
+          <img src="project-images/pn-eat.png" alt="PicNEat — Eat screen" style="aspect-ratio: 9/16;">
+          <img src="project-images/pn-leaderboard.png" alt="PicNEat — Leaderboard" style="aspect-ratio: 9/16;">
+          <img src="project-images/pn-find.png" alt="PicNEat — Find food" style="aspect-ratio: 9/16;">
+        </div>
+        <div class="img-grid" style="margin-top: 8px;">
+          <img src="project-images/pn-wireframe1.jpg" alt="PicNEat — Hand-drawn wireframe 1">
+          <img src="project-images/pn-wireframe2.jpg" alt="PicNEat — Hand-drawn wireframe 2">
         </div>
       </div>
 
